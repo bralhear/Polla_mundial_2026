@@ -967,10 +967,12 @@ def parse_dt(txt):
             pass
     return None
 
+from datetime import timedelta
 
 def fmt_dt(txt):
     dt = parse_dt(txt)
     if dt:
+        dt = dt - timedelta(hours=5)
         return dt.strftime("%d/%m/%Y %H:%M")
     return str(txt)
 
@@ -1509,3 +1511,5 @@ else:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
+
+            def fmt_dt(txt):
