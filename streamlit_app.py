@@ -1029,8 +1029,8 @@ def init_db():
             "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, 1, ?)",
             (
                 "Administrador",
-                "admin@mundialista2026.com",
-                hash_pw("1234"),
+                "brallanhernandez460@gmail.com",
+                hash_pw("Roman0511+"),
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             )
         )
@@ -1307,7 +1307,7 @@ if st.session_state.user is None:
             else:
                 st.error("Credenciales incorrectas")
 
-        st.info("Admin demo: admin@mundialista2026.com / 1234")
+        st.info("User")
 
     with t2:
         nombre = st.text_input("Nombre completo", key="reg_nombre")
