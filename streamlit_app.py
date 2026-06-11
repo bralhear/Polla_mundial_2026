@@ -1023,7 +1023,7 @@ def init_db():
     """)
     conn.commit()
 
-    cur.execute("SELECT id FROM users WHERE correo=?", ("admin@mundialista2026.com",))
+    cur.execute("SELECT id FROM users WHERE correo=?", ("brallanhernandez460@gmail.com",))
     if not cur.fetchone():
         cur.execute(
             "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, 1, ?)",
