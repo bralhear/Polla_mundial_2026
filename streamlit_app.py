@@ -1508,4 +1508,3 @@ else:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
-get_predictions_by_match()
