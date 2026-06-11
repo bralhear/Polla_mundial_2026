@@ -1256,7 +1256,7 @@ def get_predictions_by_match(match_id):
             u.nombre,
             p.home_pred,
             p.away_pred,
-            p.puntos
+            p.puntos,
             p.created_at
         FROM predictions p
         JOIN users u ON u.id = p.user_id
@@ -1508,3 +1508,4 @@ else:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
+get_predictions_by_match()
