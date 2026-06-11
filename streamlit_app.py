@@ -1351,26 +1351,25 @@ else:
         if st.button("Salir", use_container_width=True):
             st.session_state.user = None
             st.rerun()
-            
-# 🔐 PANEL SOLO ADMIN
-if user["admin"]:
 
-    st.markdown("---")
-    st.write("### 🔧 Cambiar contraseña de usuario")
+    # 🔐 PANEL SOLO ADMIN
+    if user["admin"]:
+        st.markdown("---")
+        st.write("### 🔧 Cambiar contraseña de usuario")
 
-    correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
-    nueva_pw = st.text_input("Nueva contraseña", type="password", key="admin_pw_reset")
+        correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
+        nueva_pw = st.text_input("Nueva contraseña", type="password", key="admin_pw_reset")
 
-    if st.button("Actualizar contraseña", use_container_width=True):
-        if not correo_user or not nueva_pw:
-            st.warning("Completa los campos")
-        else:
-            cur.execute(
-                "UPDATE users SET password_hash=? WHERE correo=?",
-                (hash_pw(nueva_pw), correo_user.strip().lower())
-            )
-            conn.commit()
-            st.success("✅ Contraseña actualizada")
+        if st.button("Actualizar contraseña", use_container_width=True):
+            if not correo_user or not nueva_pw:
+                st.warning("Completa los campos")
+            else:
+                cur.execute(
+                    "UPDATE users SET password_hash=? WHERE correo=?",
+                    (hash_pw(nueva_pw), correo_user.strip().lower())
+                )
+                conn.commit()
+                st.success("✅ Contraseña actualizada")
 
     tabs = st.tabs(["🎯 Partidos", "🏆 Ranking"])
 
@@ -1438,7 +1437,7 @@ if user["admin"]:
                             st.write(f"**{pr['nombre']}**")
                             st.caption(
                                 f"Pronóstico: {int(pr['home_pred'])} - {int(pr['away_pred'])} | "
-                                f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0}"
+                                f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0} | "
                                 f"Registrado: {fmt_dt(pr['created_at'])}"
                             )
 
@@ -1540,6 +1539,3 @@ if user["admin"]:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
-
-
-success
