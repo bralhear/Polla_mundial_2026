@@ -1088,6 +1088,13 @@ def crear_usuario(nombre, correo, password, admin=0):
     )
     conn.commit()
 
+def recuperar_password(correo, nueva_password):
+    cur.execute(
+        "UPDATE users SET password_hash=? WHERE correo=?",
+        (hash_pw(nueva_password), correo.strip().lower())
+    )
+    conn.commit()
+
 
 def login(correo, password):
     cur.execute(
@@ -1311,8 +1318,25 @@ if st.session_state.user is None:
             else:
                 st.error("Credenciales incorrectas")
 
-        st.info("User")
+        
+        st.markdown("---")
+        st.write("### 🔐 Recuperar contraseña")
 
+        correo_rec = st.text_input("Ingresa tu correo", key="rec_correo")
+        nueva_pw1 = st.text_input("Nueva contraseña", type="password", key="rec_pw1")
+        nueva_pw2 = st.text_input("Confirmar contraseña", type="password", key="rec_pw2")
+
+        if st.button("Recuperar contraseña", use_container_width=True):
+            if not correo_rec or not nueva_pw1:
+                st.warning("Completa todos los campos")
+            elif nueva_pw1 != nueva_pw2:
+                st.warning("Las contraseñas no coinciden")
+            elif not existe_usuario(correo_rec):
+                st.warning("Ese correo no existe")
+            else:
+                recuperar_password(correo_rec, nueva_pw1)
+                st.success("✅ Contraseña actualizada, ya puedes iniciar sesión")
+            
     with t2:
         nombre = st.text_input("Nombre completo", key="reg_nombre")
         correo = st.text_input("Correo", key="reg_correo")
