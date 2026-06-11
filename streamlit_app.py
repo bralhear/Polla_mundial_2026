@@ -1511,5 +1511,3 @@ else:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
-
-            def fmt_dt(txt):
