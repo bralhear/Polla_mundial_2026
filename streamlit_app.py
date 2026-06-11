@@ -1257,6 +1257,7 @@ def get_predictions_by_match(match_id):
             p.home_pred,
             p.away_pred,
             p.puntos
+            p.created_at
         FROM predictions p
         JOIN users u ON u.id = p.user_id
         WHERE p.match_id = ? AND u.admin = 0
@@ -1406,6 +1407,7 @@ else:
                             st.caption(
                                 f"Pronóstico: {int(pr['home_pred'])} - {int(pr['away_pred'])} | "
                                 f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0}"
+                                f"Registrado: {fmt_dt(pr['created_at'])}"
                             )
 
             else:
@@ -1450,6 +1452,7 @@ else:
                 if len(my_preds) > 0:
                     disp = my_preds.copy()
                     disp["Fecha"] = disp["fecha_partido"].apply(fmt_dt)
+                    disp["Fecha registro"] = disp["created_at"].apply(fmt_dt)
                     disp["Mi pronóstico"] = disp.apply(
                         lambda r: f"{int(r['home_pred'])} - {int(r['away_pred'])}",
                         axis=1
@@ -1464,6 +1467,7 @@ else:
                             [
                                 "match_number",
                                 "Fecha",
+                                "Fecha registro",
                                 "stage",
                                 "home_team",
                                 "away_team",
