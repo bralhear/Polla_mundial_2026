@@ -1317,25 +1317,10 @@ if st.session_state.user is None:
                 st.rerun()
             else:
                 st.error("Credenciales incorrectas")
-
         
         st.markdown("---")
-        st.write("### 🔐 Recuperar contraseña")
+        st.info("🔐 Si olvidaste tu contraseña, debes solicitarla al administrador.")
 
-        correo_rec = st.text_input("Ingresa tu correo", key="rec_correo")
-        nueva_pw1 = st.text_input("Nueva contraseña", type="password", key="rec_pw1")
-        nueva_pw2 = st.text_input("Confirmar contraseña", type="password", key="rec_pw2")
-
-        if st.button("Recuperar contraseña", use_container_width=True):
-            if not correo_rec or not nueva_pw1:
-                st.warning("Completa todos los campos")
-            elif nueva_pw1 != nueva_pw2:
-                st.warning("Las contraseñas no coinciden")
-            elif not existe_usuario(correo_rec):
-                st.warning("Ese correo no existe")
-            else:
-                recuperar_password(correo_rec, nueva_pw1)
-                st.success("✅ Contraseña actualizada, ya puedes iniciar sesión")
             
     with t2:
         nombre = st.text_input("Nombre completo", key="reg_nombre")
@@ -1366,6 +1351,26 @@ else:
         if st.button("Salir", use_container_width=True):
             st.session_state.user = None
             st.rerun()
+            
+# 🔐 PANEL SOLO ADMIN
+if user["admin"]:
+
+    st.markdown("---")
+    st.write("### 🔧 Cambiar contraseña de usuario")
+
+    correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
+    nueva_pw = st.text_input("Nueva contraseña", type="password", key="admin_pw_reset")
+
+    if st.button("Actualizar contraseña", use_container_width=True):
+        if not correo_user or not nueva_pw:
+            st.warning("Completa los campos")
+        else:
+            cur.execute(
+                "UPDATE users SET password_hash=? WHERE correo=?",
+                (hash_pw(nueva_pw), correo_user.strip().lower())
+            )
+            conn.commit()
+            st.success("✅ Contraseña actualizada")
 
     tabs = st.tabs(["🎯 Partidos", "🏆 Ranking"])
 
@@ -1535,3 +1540,6 @@ else:
             )
         else:
             st.info("Aún no hay datos para el ranking.")
+
+
+success
