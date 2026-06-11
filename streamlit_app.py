@@ -1159,7 +1159,8 @@ def get_user_predictions(user_id):
             m.away_score,
             p.home_pred,
             p.away_pred,
-            p.puntos
+            p.puntos,
+            p.created_at
         FROM predictions p
         JOIN matches m ON m.id = p.match_id
         WHERE p.user_id = ?
