@@ -172,7 +172,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
-            correo TEXT NOT NULL UNIQUE,
+            Usuario TEXT NOT NULL UNIQUE,
             password_hash TEXT NOT NULL,
             admin INTEGER DEFAULT 0,
             created_at TEXT
@@ -217,38 +217,18 @@ def init_db():
     """)
     conn.commit()
 
-    cur.execute("SELECT id FROM users WHERE correo=?", ("brallanhernandez460@gmail.com",))
+    cur.execute("SELECT id FROM users WHERE Usuario=?", ("bralhear",))
     if not cur.fetchone():
         cur.execute(
-            "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, 1, ?)",
+            "INSERT INTO users (nombre, Usuario, password_hash, admin, created_at) VALUES (?, ?, ?, 1, ?)",
             (
                 "Administrador",
-                "brallanhernandez460@gmail.com",
+                "bralhear",
                 hash_pw("Roman0511+"),
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             )
         )
         conn.commit()
-
-
-def seed_users_if_needed():
-    for u in USUARIOS_INICIALES:
-        cur.execute("SELECT id FROM users WHERE correo=?", (u["correo"],))
-        row = cur.fetchone()
-        if not row:
-            cur.execute(
-                "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, 0, ?)",
-                (u["nombre"], u["correo"], hash_pw("Mundial2026"), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            )
-            conn.commit()
-            cur.execute("SELECT id FROM users WHERE correo=?", (u["correo"],))
-            row = cur.fetchone()
-
-        user_id = row[0]
-        cur.execute("SELECT id FROM puntos_manuales WHERE user_id=?", (user_id,))
-        if not cur.fetchone():
-            cur.execute("INSERT INTO puntos_manuales (user_id, puntos) VALUES (?, ?)", (user_id, u["puntos"]))
-            conn.commit()
 
 
 def seed_matches_if_empty():
@@ -270,29 +250,28 @@ def seed_matches_if_empty():
         conn.commit()
 
 
-def existe_usuario(correo):
-    cur.execute("SELECT id FROM users WHERE correo=?", (correo.strip().lower(),))
+def existe_usuario(Usuario):
+    cur.execute("SELECT id FROM users WHERE Usuario=?", (Usuario.strip().lower(),))
     return cur.fetchone()
 
 
-def crear_usuario(nombre, correo, password, admin=0):
+def crear_usuario(nombre, Usuario, password, admin=0):
     cur.execute(
-        "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, ?, ?)",
-        (nombre, correo.strip().lower(), hash_pw(password), admin, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        "INSERT INTO users (nombre, Usuario, password_hash, admin, created_at) VALUES (?, ?, ?, ?, ?)",
+        (nombre, Usuario.strip().lower(), hash_pw(password), admin, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     )
     conn.commit()
-    # Crear registro de puntos manuales en 0
-    cur.execute("SELECT id FROM users WHERE correo=?", (correo.strip().lower(),))
+    cur.execute("SELECT id FROM users WHERE Usuario=?", (Usuario.strip().lower(),))
     row = cur.fetchone()
     if row:
         cur.execute("INSERT OR IGNORE INTO puntos_manuales (user_id, puntos) VALUES (?, 0)", (row[0],))
         conn.commit()
 
 
-def login(correo, password):
+def login(Usuario, password):
     cur.execute(
-        "SELECT id, nombre, correo, admin FROM users WHERE correo=? AND password_hash=?",
-        (correo.strip().lower(), hash_pw(password))
+        "SELECT id, nombre, Usuario, admin FROM users WHERE Usuario=? AND password_hash=?",
+        (Usuario.strip().lower(), hash_pw(password))
     )
     return cur.fetchone()
 
@@ -396,20 +375,18 @@ def get_ranking():
     return pd.read_sql_query("""
         SELECT
             u.nombre,
-            COALESCE(SUM(p.puntos), 0) + COALESCE(pm.puntos, 0) AS puntos,
-            COALESCE(COUNT(p.id), 0) AS pronosticos
+            COALESCE(pm.puntos, 0) AS puntos,
+            (SELECT COUNT(*) FROM predictions WHERE user_id = u.id) AS pronosticos
         FROM users u
-        LEFT JOIN predictions p ON p.user_id = u.id
         LEFT JOIN puntos_manuales pm ON pm.user_id = u.id
-        WHERE u.admin = 0
-        GROUP BY u.id, u.nombre, pm.puntos
+        WHERE u.admin = 0 AND COALESCE(pm.puntos, 0) > 0
         ORDER BY puntos DESC, pronosticos DESC, u.nombre ASC
     """, conn)
 
 
+
 init_db()
 seed_matches_if_empty()
-seed_users_if_needed()
 
 if "user" not in st.session_state:
     st.session_state.user = None
@@ -418,42 +395,42 @@ st.title("⚽ Polla - Mundialista 2026")
 st.caption("Polla para registrar tus pronósticos del Mundial 2026. ¡Que gane el mejor!")
 
 if st.session_state.user is None:
-    t1, t2 = st.tabs(["\U0001f511 Iniciar sesión", "\U0001f4dd Crear usuario"])
+    t1, t2 = st.tabs(["🔑 Iniciar sesión", "📝 Crear usuario"])
 
     with t1:
-        correo = st.text_input("Correo", key="login_correo")
+        Usuario = st.text_input("Usuario", key="login_Usuario")
         pw = st.text_input("Contraseña", type="password", key="login_pw")
         if st.button("Entrar", use_container_width=True):
-            u = login(correo, pw)
+            u = login(Usuario, pw)
             if u:
-                st.session_state.user = {"id": u[0], "nombre": u[1], "correo": u[2], "admin": u[3]}
+                st.session_state.user = {"id": u[0], "nombre": u[1], "Usuario": u[2], "admin": u[3]}
                 st.rerun()
             else:
                 st.error("Credenciales incorrectas")
         st.markdown("---")
-        st.info("\U0001f510 Si olvidaste tu contraseña, debes solicitarla al administrador.")
+        st.info("🔐 Si olvidaste tu contraseña, debes solicitarla al administrador.")
 
     with t2:
         nombre = st.text_input("Nombre completo", key="reg_nombre")
-        correo = st.text_input("Correo", key="reg_correo")
+        Usuario = st.text_input("Usuario", key="reg_Usuario")
         pw1 = st.text_input("Contraseña", type="password", key="reg_pw1")
         pw2 = st.text_input("Confirmar contraseña", type="password", key="reg_pw2")
         if st.button("Crear usuario", use_container_width=True):
-            if not nombre or not correo or not pw1:
+            if not nombre or not Usuario or not pw1:
                 st.warning("Completa todos los campos.")
             elif pw1 != pw2:
                 st.warning("Las contraseñas no coinciden.")
-            elif existe_usuario(correo):
-                st.warning("Ese correo ya está registrado.")
+            elif existe_usuario(Usuario):
+                st.warning("Ese Usuario ya está registrado.")
             else:
-                crear_usuario(nombre, correo, pw1)
+                crear_usuario(nombre, Usuario, pw1)
                 st.success("✅ Usuario creado. Ya puedes iniciar sesión.")
 
 else:
     user = st.session_state.user
     h1, h2 = st.columns([6, 1])
     with h1:
-        st.success(f"\U0001f44b {user['nombre']}")
+        st.success(f"👋 {user['nombre']}")
     with h2:
         if st.button("Salir", use_container_width=True):
             st.session_state.user = None
@@ -463,24 +440,24 @@ else:
     if user["admin"]:
         st.markdown("---")
 
-        st.write("### \U0001f4e6 Respaldo de base de datos")
+        st.write("### 📦 Respaldo de base de datos")
         with open(DB, "rb") as f:
             st.download_button("⬇️ Descargar respaldo de la BD", f, file_name=DB, use_container_width=True)
         st.markdown("---")
 
-        st.write("### \U0001f527 Cambiar contraseña de usuario")
-        correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
+        st.write("### 🔧 Cambiar contraseña de usuario")
+        Usuario_user = st.text_input("Usuario del usuario", key="admin_Usuario_reset")
         nueva_pw = st.text_input("Nueva contraseña", type="password", key="admin_pw_reset")
         if st.button("Actualizar contraseña", use_container_width=True):
-            if not correo_user or not nueva_pw:
+            if not Usuario_user or not nueva_pw:
                 st.warning("Completa los campos")
             else:
-                cur.execute("UPDATE users SET password_hash=? WHERE correo=?", (hash_pw(nueva_pw), correo_user.strip().lower()))
+                cur.execute("UPDATE users SET password_hash=? WHERE Usuario=?", (hash_pw(nueva_pw), Usuario_user.strip().lower()))
                 conn.commit()
                 st.success("✅ Contraseña actualizada")
 
         st.markdown("---")
-        st.write("### \U0001f4ca Ajustar puntos manuales")
+        st.write("### 📊 Ajustar puntos manuales")
         all_users = pd.read_sql_query("SELECT u.id, u.nombre, COALESCE(pm.puntos, 0) as pts_manuales FROM users u LEFT JOIN puntos_manuales pm ON pm.user_id = u.id WHERE u.admin = 0 ORDER BY u.nombre", conn)
         if len(all_users) > 0:
             user_options = {f"{r['nombre']} (Pts manuales: {int(r['pts_manuales'])})": int(r['id']) for _, r in all_users.iterrows()}
@@ -496,10 +473,10 @@ else:
                 st.success(f"✅ Puntos manuales actualizados a {new_pts}")
                 st.rerun()
 
-    tabs = st.tabs(["\U0001f3af Partidos", "\U0001f3c6 Ranking"])
+    tabs = st.tabs(["🎯 Partidos", "🏆 Ranking"])
 
     with tabs[0]:
-        search = st.text_input("\U0001f50e Buscar partido por equipo o número", key="buscar_partido")
+        search = st.text_input("🔎 Buscar partido por equipo o número", key="buscar_partido")
         df_matches = get_matches(search)
 
         if len(df_matches) == 0:
@@ -560,14 +537,14 @@ else:
                             with col_pts:
                                 nuevo_pts = st.number_input("Pts", min_value=0, max_value=3,
                                     value=int(pr["puntos"]) if pd.notna(pr["puntos"]) else 0, key=f"edit_pts_{pr['id']}")
-                                if st.button("\U0001f4be", key=f"btn_pts_{pr['id']}"):
+                                if st.button("💾", key=f"btn_pts_{pr['id']}"):
                                     cur.execute("UPDATE predictions SET puntos=? WHERE id=?", (nuevo_pts, int(pr["id"])))
                                     conn.commit()
                                     st.rerun()
 
                     if tardios_ids:
                         st.warning(f"⚠️ {len(tardios_ids)} pronóstico(s) registrado(s) después del inicio del partido.")
-                        if st.button("\U0001f6ab Poner en 0 TODOS los tardíos", use_container_width=True, key="btn_zero_tardios"):
+                        if st.button("🚫 Poner en 0 TODOS los tardíos", use_container_width=True, key="btn_zero_tardios"):
                             for pid in tardios_ids:
                                 cur.execute("UPDATE predictions SET puntos=0 WHERE id=?", (pid,))
                             conn.commit()
@@ -577,8 +554,14 @@ else:
             else:
                 st.write("### Tu pronóstico")
                 existing = prediction_exists(user["id"], int(row["id"]))
+                ahora_col = datetime.now() - timedelta(hours=5)
+                fecha_match = parse_dt(row["fecha_partido"])
+                partido_iniciado = (fecha_match is not None and ahora_col > fecha_match)
+
                 if existing:
                     st.info("Ya registraste este partido. El pronóstico quedó bloqueado y no se puede cambiar.")
+                elif partido_iniciado:
+                    st.error("⛔ Este partido ya inició. No puedes registrar pronóstico.")
                 else:
                     c1, c2 = st.columns(2)
                     hp = c1.number_input(f"Goles {row['home_team']}", min_value=0, max_value=30, value=0, step=1, key="pred_h")
