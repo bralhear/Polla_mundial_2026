@@ -2,7 +2,7 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 
 st.set_page_config(
     page_title="Mundialista 2026 - Polla",
@@ -14,951 +14,118 @@ DB = "mundialista2026_simple.db"
 
 PARTIDOS_INICIALES = [
     # ==================== JORNADA 1 ====================
-    {
-        'match_number': 1,
-        'fecha_partido': '2026-06-11 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'México',
-        'away_team': 'Sudáfrica',
-        'estadio': 'Estadio Azteca',
-        'ciudad': 'Ciudad de México'
-    },
-    {
-        'match_number': 2,
-        'fecha_partido': '2026-06-11 21:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Corea del Sur',
-        'away_team': 'República Checa',
-        'estadio': 'Estadio Guadalajara',
-        'ciudad': 'Guadalajara'
-    },
-    {
-        'match_number': 3,
-        'fecha_partido': '2026-06-12 14:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Canadá',
-        'away_team': 'Bosnia y Herzegovina',
-        'estadio': 'Toronto Stadium',
-        'ciudad': 'Toronto'
-    },
-    {
-        'match_number': 4,
-        'fecha_partido': '2026-06-12 20:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Estados Unidos',
-        'away_team': 'Paraguay',
-        'estadio': 'Los Angeles Stadium',
-        'ciudad': 'Inglewood'
-    },
-    {
-        'match_number': 5,
-        'fecha_partido': '2026-06-13 14:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Catar',
-        'away_team': 'Suiza',
-        'estadio': 'San Francisco Bay Area Stadium',
-        'ciudad': 'Santa Clara'
-    },
-    {
-        'match_number': 6,
-        'fecha_partido': '2026-06-13 17:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Brasil',
-        'away_team': 'Marruecos',
-        'estadio': 'New York New Jersey Stadium',
-        'ciudad': 'East Rutherford'
-    },
-    {
-        'match_number': 7,
-        'fecha_partido': '2026-06-13 20:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Haití',
-        'away_team': 'Escocia',
-        'estadio': 'Boston Stadium',
-        'ciudad': 'Foxborough'
-    },
-    {
-        'match_number': 8,
-        'fecha_partido': '2026-06-13 23:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Australia',
-        'away_team': 'Turquía',
-        'estadio': 'BC Place',
-        'ciudad': 'Vancouver'
-    },
-    {
-        'match_number': 9,
-        'fecha_partido': '2026-06-14 12:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Alemania',
-        'away_team': 'Curaçao',
-        'estadio': 'Houston Stadium',
-        'ciudad': 'Houston'
-    },
-    {
-        'match_number': 10,
-        'fecha_partido': '2026-06-14 15:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Países Bajos',
-        'away_team': 'Japón',
-        'estadio': 'Dallas Stadium',
-        'ciudad': 'Arlington'
-    },
-    {
-        'match_number': 11,
-        'fecha_partido': '2026-06-14 18:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Costa de Marfil',
-        'away_team': 'Ecuador',
-        'estadio': 'Philadelphia Stadium',
-        'ciudad': 'Filadelfia'
-    },
-    {
-        'match_number': 12,
-        'fecha_partido': '2026-06-14 21:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Suecia',
-        'away_team': 'Túnez',
-        'estadio': 'Estadio Monterrey',
-        'ciudad': 'Guadalupe'
-    },
-    {
-        'match_number': 13,
-        'fecha_partido': '2026-06-15 11:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'España',
-        'away_team': 'Cabo Verde',
-        'estadio': 'Atlanta Stadium',
-        'ciudad': 'Atlanta'
-    },
-    {
-        'match_number': 14,
-        'fecha_partido': '2026-06-15 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Bélgica',
-        'away_team': 'Egipto',
-        'estadio': 'Seattle Stadium',
-        'ciudad': 'Seattle'
-    },
-    {
-        'match_number': 15,
-        'fecha_partido': '2026-06-15 17:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Arabia Saudita',
-        'away_team': 'Uruguay',
-        'estadio': 'Miami Stadium',
-        'ciudad': 'Miami Gardens'
-    },
-    {
-        'match_number': 16,
-        'fecha_partido': '2026-06-15 20:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Irán',
-        'away_team': 'Nueva Zelanda',
-        'estadio': 'Los Angeles Stadium',
-        'ciudad': 'Inglewood'
-    },
-    {
-        'match_number': 17,
-        'fecha_partido': '2026-06-16 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Francia',
-        'away_team': 'Senegal',
-        'estadio': 'New York New Jersey Stadium',
-        'ciudad': 'East Rutherford'
-    },
-    {
-        'match_number': 18,
-        'fecha_partido': '2026-06-16 17:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Irak',
-        'away_team': 'Noruega',
-        'estadio': 'Boston Stadium',
-        'ciudad': 'Foxborough'
-    },
-    {
-        'match_number': 19,
-        'fecha_partido': '2026-06-16 20:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Argentina',
-        'away_team': 'Argelia',
-        'estadio': 'Kansas City Stadium',
-        'ciudad': 'Kansas City'
-    },
-    {
-        'match_number': 20,
-        'fecha_partido': '2026-06-16 23:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Austria',
-        'away_team': 'Jordania',
-        'estadio': 'San Francisco Bay Area Stadium',
-        'ciudad': 'Santa Clara'
-    },
-    {
-        'match_number': 21,
-        'fecha_partido': '2026-06-17 12:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Portugal',
-        'away_team': 'RD Congo',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 22,
-        'fecha_partido': '2026-06-17 15:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Inglaterra',
-        'away_team': 'Croacia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 23,
-        'fecha_partido': '2026-06-17 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Ghana',
-        'away_team': 'Panamá',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 24,
-        'fecha_partido': '2026-06-17 21:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Uzbekistán',
-        'away_team': 'Colombia',
-        'estadio': 'Estadio Azteca',
-        'ciudad': 'Ciudad de México'
-    },
+    {'match_number': 1, 'fecha_partido': '2026-06-11 14:00:00', 'stage': 'Grupo A', 'home_team': 'México', 'away_team': 'Sudáfrica', 'estadio': 'Estadio Azteca', 'ciudad': 'Ciudad de México'},
+    {'match_number': 2, 'fecha_partido': '2026-06-11 21:00:00', 'stage': 'Grupo A', 'home_team': 'Corea del Sur', 'away_team': 'República Checa', 'estadio': 'Estadio Guadalajara', 'ciudad': 'Guadalajara'},
+    {'match_number': 3, 'fecha_partido': '2026-06-12 14:00:00', 'stage': 'Grupo B', 'home_team': 'Canadá', 'away_team': 'Bosnia y Herzegovina', 'estadio': 'Toronto Stadium', 'ciudad': 'Toronto'},
+    {'match_number': 4, 'fecha_partido': '2026-06-12 20:00:00', 'stage': 'Grupo D', 'home_team': 'Estados Unidos', 'away_team': 'Paraguay', 'estadio': 'Los Angeles Stadium', 'ciudad': 'Inglewood'},
+    {'match_number': 5, 'fecha_partido': '2026-06-13 14:00:00', 'stage': 'Grupo B', 'home_team': 'Catar', 'away_team': 'Suiza', 'estadio': 'San Francisco Bay Area Stadium', 'ciudad': 'Santa Clara'},
+    {'match_number': 6, 'fecha_partido': '2026-06-13 17:00:00', 'stage': 'Grupo C', 'home_team': 'Brasil', 'away_team': 'Marruecos', 'estadio': 'New York New Jersey Stadium', 'ciudad': 'East Rutherford'},
+    {'match_number': 7, 'fecha_partido': '2026-06-13 20:00:00', 'stage': 'Grupo C', 'home_team': 'Haití', 'away_team': 'Escocia', 'estadio': 'Boston Stadium', 'ciudad': 'Foxborough'},
+    {'match_number': 8, 'fecha_partido': '2026-06-13 23:00:00', 'stage': 'Grupo D', 'home_team': 'Australia', 'away_team': 'Turquía', 'estadio': 'BC Place', 'ciudad': 'Vancouver'},
+    {'match_number': 9, 'fecha_partido': '2026-06-14 12:00:00', 'stage': 'Grupo E', 'home_team': 'Alemania', 'away_team': 'Curaçao', 'estadio': 'Houston Stadium', 'ciudad': 'Houston'},
+    {'match_number': 10, 'fecha_partido': '2026-06-14 15:00:00', 'stage': 'Grupo F', 'home_team': 'Países Bajos', 'away_team': 'Japón', 'estadio': 'Dallas Stadium', 'ciudad': 'Arlington'},
+    {'match_number': 11, 'fecha_partido': '2026-06-14 18:00:00', 'stage': 'Grupo E', 'home_team': 'Costa de Marfil', 'away_team': 'Ecuador', 'estadio': 'Philadelphia Stadium', 'ciudad': 'Filadelfia'},
+    {'match_number': 12, 'fecha_partido': '2026-06-14 21:00:00', 'stage': 'Grupo F', 'home_team': 'Suecia', 'away_team': 'Túnez', 'estadio': 'Estadio Monterrey', 'ciudad': 'Guadalupe'},
+    {'match_number': 13, 'fecha_partido': '2026-06-15 11:00:00', 'stage': 'Grupo H', 'home_team': 'España', 'away_team': 'Cabo Verde', 'estadio': 'Atlanta Stadium', 'ciudad': 'Atlanta'},
+    {'match_number': 14, 'fecha_partido': '2026-06-15 14:00:00', 'stage': 'Grupo G', 'home_team': 'Bélgica', 'away_team': 'Egipto', 'estadio': 'Seattle Stadium', 'ciudad': 'Seattle'},
+    {'match_number': 15, 'fecha_partido': '2026-06-15 17:00:00', 'stage': 'Grupo H', 'home_team': 'Arabia Saudita', 'away_team': 'Uruguay', 'estadio': 'Miami Stadium', 'ciudad': 'Miami Gardens'},
+    {'match_number': 16, 'fecha_partido': '2026-06-15 20:00:00', 'stage': 'Grupo G', 'home_team': 'Irán', 'away_team': 'Nueva Zelanda', 'estadio': 'Los Angeles Stadium', 'ciudad': 'Inglewood'},
+    {'match_number': 17, 'fecha_partido': '2026-06-16 14:00:00', 'stage': 'Grupo I', 'home_team': 'Francia', 'away_team': 'Senegal', 'estadio': 'New York New Jersey Stadium', 'ciudad': 'East Rutherford'},
+    {'match_number': 18, 'fecha_partido': '2026-06-16 17:00:00', 'stage': 'Grupo I', 'home_team': 'Irak', 'away_team': 'Noruega', 'estadio': 'Boston Stadium', 'ciudad': 'Foxborough'},
+    {'match_number': 19, 'fecha_partido': '2026-06-16 20:00:00', 'stage': 'Grupo J', 'home_team': 'Argentina', 'away_team': 'Argelia', 'estadio': 'Kansas City Stadium', 'ciudad': 'Kansas City'},
+    {'match_number': 20, 'fecha_partido': '2026-06-16 23:00:00', 'stage': 'Grupo J', 'home_team': 'Austria', 'away_team': 'Jordania', 'estadio': 'San Francisco Bay Area Stadium', 'ciudad': 'Santa Clara'},
+    {'match_number': 21, 'fecha_partido': '2026-06-17 12:00:00', 'stage': 'Grupo K', 'home_team': 'Portugal', 'away_team': 'RD Congo', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 22, 'fecha_partido': '2026-06-17 15:00:00', 'stage': 'Grupo L', 'home_team': 'Inglaterra', 'away_team': 'Croacia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 23, 'fecha_partido': '2026-06-17 18:00:00', 'stage': 'Grupo L', 'home_team': 'Ghana', 'away_team': 'Panamá', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 24, 'fecha_partido': '2026-06-17 21:00:00', 'stage': 'Grupo K', 'home_team': 'Uzbekistán', 'away_team': 'Colombia', 'estadio': 'Estadio Azteca', 'ciudad': 'Ciudad de México'},
     # ==================== JORNADA 2 ====================
-    {
-        'match_number': 25,
-        'fecha_partido': '2026-06-18 11:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'República Checa',
-        'away_team': 'Sudáfrica',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 26,
-        'fecha_partido': '2026-06-18 14:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Suiza',
-        'away_team': 'Bosnia y Herzegovina',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 27,
-        'fecha_partido': '2026-06-18 17:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Canadá',
-        'away_team': 'Catar',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 28,
-        'fecha_partido': '2026-06-18 20:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'México',
-        'away_team': 'Corea del Sur',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 29,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Estados Unidos',
-        'away_team': 'Australia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 30,
-        'fecha_partido': '2026-06-19 17:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Escocia',
-        'away_team': 'Marruecos',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 31,
-        'fecha_partido': '2026-06-19 20:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Brasil',
-        'away_team': 'Haití',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 32,
-        'fecha_partido': '2026-06-19 23:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Turquía',
-        'away_team': 'Paraguay',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 33,
-        'fecha_partido': '2026-06-20 14:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Países Bajos',
-        'away_team': 'Suecia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 34,
-        'fecha_partido': '2026-06-20 15:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Alemania',
-        'away_team': 'Costa de Marfil',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 35,
-        'fecha_partido': '2026-06-20 19:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Ecuador',
-        'away_team': 'Curaçao',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 36,
-        'fecha_partido': '2026-06-20 23:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Túnez',
-        'away_team': 'Japón',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 37,
-        'fecha_partido': '2026-06-21 11:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'España',
-        'away_team': 'Arabia Saudita',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 38,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Bélgica',
-        'away_team': 'Irán',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 39,
-        'fecha_partido': '2026-06-21 17:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Uruguay',
-        'away_team': 'Cabo Verde',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 40,
-        'fecha_partido': '2026-06-21 20:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Nueva Zelanda',
-        'away_team': 'Egipto',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 41,
-        'fecha_partido': '2026-06-22 12:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Argentina',
-        'away_team': 'Austria',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 42,
-        'fecha_partido': '2026-06-22 16:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Francia',
-        'away_team': 'Irak',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 43,
-        'fecha_partido': '2026-06-22 19:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Noruega',
-        'away_team': 'Senegal',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 44,
-        'fecha_partido': '2026-06-22 22:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Jordania',
-        'away_team': 'Argelia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 45,
-        'fecha_partido': '2026-06-23 12:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Portugal',
-        'away_team': 'Uzbekistán',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 46,
-        'fecha_partido': '2026-06-23 15:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Inglaterra',
-        'away_team': 'Ghana',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 47,
-        'fecha_partido': '2026-06-23 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Panamá',
-        'away_team': 'Croacia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 48,
-        'fecha_partido': '2026-06-23 21:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Colombia',
-        'away_team': 'RD Congo',
-        'estadio': 'Estadio Guadalajara',
-        'ciudad': 'Guadalajara'
-    },
+    {'match_number': 25, 'fecha_partido': '2026-06-18 11:00:00', 'stage': 'Grupo A', 'home_team': 'República Checa', 'away_team': 'Sudáfrica', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 26, 'fecha_partido': '2026-06-18 14:00:00', 'stage': 'Grupo B', 'home_team': 'Suiza', 'away_team': 'Bosnia y Herzegovina', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 27, 'fecha_partido': '2026-06-18 17:00:00', 'stage': 'Grupo B', 'home_team': 'Canadá', 'away_team': 'Catar', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 28, 'fecha_partido': '2026-06-18 20:00:00', 'stage': 'Grupo A', 'home_team': 'México', 'away_team': 'Corea del Sur', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 29, 'fecha_partido': '2026-06-19 14:00:00', 'stage': 'Grupo D', 'home_team': 'Estados Unidos', 'away_team': 'Australia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 30, 'fecha_partido': '2026-06-19 17:00:00', 'stage': 'Grupo C', 'home_team': 'Escocia', 'away_team': 'Marruecos', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 31, 'fecha_partido': '2026-06-19 20:00:00', 'stage': 'Grupo C', 'home_team': 'Brasil', 'away_team': 'Haití', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 32, 'fecha_partido': '2026-06-19 23:00:00', 'stage': 'Grupo D', 'home_team': 'Turquía', 'away_team': 'Paraguay', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 33, 'fecha_partido': '2026-06-20 14:00:00', 'stage': 'Grupo F', 'home_team': 'Países Bajos', 'away_team': 'Suecia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 34, 'fecha_partido': '2026-06-20 15:00:00', 'stage': 'Grupo E', 'home_team': 'Alemania', 'away_team': 'Costa de Marfil', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 35, 'fecha_partido': '2026-06-20 19:00:00', 'stage': 'Grupo E', 'home_team': 'Ecuador', 'away_team': 'Curaçao', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 36, 'fecha_partido': '2026-06-20 23:00:00', 'stage': 'Grupo F', 'home_team': 'Túnez', 'away_team': 'Japón', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 37, 'fecha_partido': '2026-06-21 11:00:00', 'stage': 'Grupo H', 'home_team': 'España', 'away_team': 'Arabia Saudita', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 38, 'fecha_partido': '2026-06-21 14:00:00', 'stage': 'Grupo G', 'home_team': 'Bélgica', 'away_team': 'Irán', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 39, 'fecha_partido': '2026-06-21 17:00:00', 'stage': 'Grupo H', 'home_team': 'Uruguay', 'away_team': 'Cabo Verde', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 40, 'fecha_partido': '2026-06-21 20:00:00', 'stage': 'Grupo G', 'home_team': 'Nueva Zelanda', 'away_team': 'Egipto', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 41, 'fecha_partido': '2026-06-22 12:00:00', 'stage': 'Grupo J', 'home_team': 'Argentina', 'away_team': 'Austria', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 42, 'fecha_partido': '2026-06-22 16:00:00', 'stage': 'Grupo I', 'home_team': 'Francia', 'away_team': 'Irak', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 43, 'fecha_partido': '2026-06-22 19:00:00', 'stage': 'Grupo I', 'home_team': 'Noruega', 'away_team': 'Senegal', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 44, 'fecha_partido': '2026-06-22 22:00:00', 'stage': 'Grupo J', 'home_team': 'Jordania', 'away_team': 'Argelia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 45, 'fecha_partido': '2026-06-23 12:00:00', 'stage': 'Grupo K', 'home_team': 'Portugal', 'away_team': 'Uzbekistán', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 46, 'fecha_partido': '2026-06-23 15:00:00', 'stage': 'Grupo L', 'home_team': 'Inglaterra', 'away_team': 'Ghana', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 47, 'fecha_partido': '2026-06-23 18:00:00', 'stage': 'Grupo L', 'home_team': 'Panamá', 'away_team': 'Croacia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 48, 'fecha_partido': '2026-06-23 21:00:00', 'stage': 'Grupo K', 'home_team': 'Colombia', 'away_team': 'RD Congo', 'estadio': 'Estadio Guadalajara', 'ciudad': 'Guadalajara'},
     # ==================== JORNADA 3 ====================
-    {
-        'match_number': 49,
-        'fecha_partido': '2026-06-24 14:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Suiza',
-        'away_team': 'Canadá',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 50,
-        'fecha_partido': '2026-06-24 14:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Bosnia y Herzegovina',
-        'away_team': 'Catar',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 51,
-        'fecha_partido': '2026-06-24 17:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Escocia',
-        'away_team': 'Brasil',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 52,
-        'fecha_partido': '2026-06-24 17:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Marruecos',
-        'away_team': 'Haití',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 53,
-        'fecha_partido': '2026-06-24 20:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'República Checa',
-        'away_team': 'México',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 54,
-        'fecha_partido': '2026-06-24 20:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Sudáfrica',
-        'away_team': 'Corea del Sur',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 55,
-        'fecha_partido': '2026-06-25 15:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Curaçao',
-        'away_team': 'Costa de Marfil',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 56,
-        'fecha_partido': '2026-06-25 15:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Ecuador',
-        'away_team': 'Alemania',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 57,
-        'fecha_partido': '2026-06-25 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Japón',
-        'away_team': 'Suecia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 58,
-        'fecha_partido': '2026-06-25 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Túnez',
-        'away_team': 'Países Bajos',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 59,
-        'fecha_partido': '2026-06-25 21:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Turquía',
-        'away_team': 'Estados Unidos',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 60,
-        'fecha_partido': '2026-06-25 21:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Paraguay',
-        'away_team': 'Australia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 61,
-        'fecha_partido': '2026-06-26 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Noruega',
-        'away_team': 'Francia',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 62,
-        'fecha_partido': '2026-06-26 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Senegal',
-        'away_team': 'Irak',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 63,
-        'fecha_partido': '2026-06-26 19:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Cabo Verde',
-        'away_team': 'Arabia Saudita',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 64,
-        'fecha_partido': '2026-06-26 19:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Uruguay',
-        'away_team': 'España',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 65,
-        'fecha_partido': '2026-06-26 22:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Egipto',
-        'away_team': 'Irán',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 66,
-        'fecha_partido': '2026-06-26 22:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Nueva Zelanda',
-        'away_team': 'Bélgica',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 67,
-        'fecha_partido': '2026-06-27 16:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Panamá',
-        'away_team': 'Inglaterra',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 68,
-        'fecha_partido': '2026-06-27 16:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Croacia',
-        'away_team': 'Ghana',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 69,
-        'fecha_partido': '2026-06-27 18:30:00',
-        'stage': 'Grupo K',
-        'home_team': 'Colombia',
-        'away_team': 'Portugal',
-        'estadio': 'Hard Rock Stadium',
-        'ciudad': 'Miami Gardens'
-    },
-    {
-        'match_number': 70,
-        'fecha_partido': '2026-06-27 18:30:00',
-        'stage': 'Grupo K',
-        'home_team': 'RD Congo',
-        'away_team': 'Uzbekistán',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 71,
-        'fecha_partido': '2026-06-27 21:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Argelia',
-        'away_team': 'Austria',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 72,
-        'fecha_partido': '2026-06-27 21:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Jordania',
-        'away_team': 'Argentina',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
+    {'match_number': 49, 'fecha_partido': '2026-06-24 14:00:00', 'stage': 'Grupo B', 'home_team': 'Suiza', 'away_team': 'Canadá', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 50, 'fecha_partido': '2026-06-24 14:00:00', 'stage': 'Grupo B', 'home_team': 'Bosnia y Herzegovina', 'away_team': 'Catar', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 51, 'fecha_partido': '2026-06-24 17:00:00', 'stage': 'Grupo C', 'home_team': 'Escocia', 'away_team': 'Brasil', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 52, 'fecha_partido': '2026-06-24 17:00:00', 'stage': 'Grupo C', 'home_team': 'Marruecos', 'away_team': 'Haití', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 53, 'fecha_partido': '2026-06-24 20:00:00', 'stage': 'Grupo A', 'home_team': 'República Checa', 'away_team': 'México', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 54, 'fecha_partido': '2026-06-24 20:00:00', 'stage': 'Grupo A', 'home_team': 'Sudáfrica', 'away_team': 'Corea del Sur', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 55, 'fecha_partido': '2026-06-25 15:00:00', 'stage': 'Grupo E', 'home_team': 'Curaçao', 'away_team': 'Costa de Marfil', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 56, 'fecha_partido': '2026-06-25 15:00:00', 'stage': 'Grupo E', 'home_team': 'Ecuador', 'away_team': 'Alemania', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 57, 'fecha_partido': '2026-06-25 18:00:00', 'stage': 'Grupo F', 'home_team': 'Japón', 'away_team': 'Suecia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 58, 'fecha_partido': '2026-06-25 18:00:00', 'stage': 'Grupo F', 'home_team': 'Túnez', 'away_team': 'Países Bajos', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 59, 'fecha_partido': '2026-06-25 21:00:00', 'stage': 'Grupo D', 'home_team': 'Turquía', 'away_team': 'Estados Unidos', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 60, 'fecha_partido': '2026-06-25 21:00:00', 'stage': 'Grupo D', 'home_team': 'Paraguay', 'away_team': 'Australia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 61, 'fecha_partido': '2026-06-26 14:00:00', 'stage': 'Grupo I', 'home_team': 'Noruega', 'away_team': 'Francia', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 62, 'fecha_partido': '2026-06-26 14:00:00', 'stage': 'Grupo I', 'home_team': 'Senegal', 'away_team': 'Irak', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 63, 'fecha_partido': '2026-06-26 19:00:00', 'stage': 'Grupo H', 'home_team': 'Cabo Verde', 'away_team': 'Arabia Saudita', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 64, 'fecha_partido': '2026-06-26 19:00:00', 'stage': 'Grupo H', 'home_team': 'Uruguay', 'away_team': 'España', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 65, 'fecha_partido': '2026-06-26 22:00:00', 'stage': 'Grupo G', 'home_team': 'Egipto', 'away_team': 'Irán', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 66, 'fecha_partido': '2026-06-26 22:00:00', 'stage': 'Grupo G', 'home_team': 'Nueva Zelanda', 'away_team': 'Bélgica', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 67, 'fecha_partido': '2026-06-27 16:00:00', 'stage': 'Grupo L', 'home_team': 'Panamá', 'away_team': 'Inglaterra', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 68, 'fecha_partido': '2026-06-27 16:00:00', 'stage': 'Grupo L', 'home_team': 'Croacia', 'away_team': 'Ghana', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 69, 'fecha_partido': '2026-06-27 18:30:00', 'stage': 'Grupo K', 'home_team': 'Colombia', 'away_team': 'Portugal', 'estadio': 'Hard Rock Stadium', 'ciudad': 'Miami Gardens'},
+    {'match_number': 70, 'fecha_partido': '2026-06-27 18:30:00', 'stage': 'Grupo K', 'home_team': 'RD Congo', 'away_team': 'Uzbekistán', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 71, 'fecha_partido': '2026-06-27 21:00:00', 'stage': 'Grupo J', 'home_team': 'Argelia', 'away_team': 'Austria', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 72, 'fecha_partido': '2026-06-27 21:00:00', 'stage': 'Grupo J', 'home_team': 'Jordania', 'away_team': 'Argentina', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
     # ==================== DIECISEISAVOS DE FINAL ====================
-    {
-        'match_number': 73,
-        'fecha_partido': '2026-06-29 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo A',
-        'away_team': '2° del Grupo C o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 74,
-        'fecha_partido': '2026-06-30 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo B',
-        'away_team': '2° del Grupo D o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 75,
-        'fecha_partido': '2026-07-01 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo C',
-        'away_team': '2° del Grupo E o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 76,
-        'fecha_partido': '2026-06-28 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo D',
-        'away_team': '2° del Grupo F o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 77,
-        'fecha_partido': '2026-06-29 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo E',
-        'away_team': '2° del Grupo G o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 78,
-        'fecha_partido': '2026-06-30 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo F',
-        'away_team': '2° del Grupo H o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 79,
-        'fecha_partido': '2026-07-01 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo G',
-        'away_team': '2° del Grupo I o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 80,
-        'fecha_partido': '2026-06-28 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo H',
-        'away_team': '2° del Grupo J o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 81,
-        'fecha_partido': '2026-06-29 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo I',
-        'away_team': '2° del Grupo K o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 82,
-        'fecha_partido': '2026-06-30 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo J',
-        'away_team': '2° del Grupo L o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 83,
-        'fecha_partido': '2026-07-01 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo K',
-        'away_team': '2° del Grupo A o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 84,
-        'fecha_partido': '2026-06-28 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo L',
-        'away_team': '2° del Grupo B o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 85,
-        'fecha_partido': '2026-06-29 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo A',
-        'away_team': '2° del Grupo C o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 86,
-        'fecha_partido': '2026-06-30 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo B',
-        'away_team': '2° del Grupo D o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 87,
-        'fecha_partido': '2026-07-01 19:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo C',
-        'away_team': '2° del Grupo E o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 88,
-        'fecha_partido': '2026-06-28 15:00:00',
-        'stage': 'Dieciseisavos de Final',
-        'home_team': '1° del Grupo D',
-        'away_team': '2° del Grupo F o Mejor 3°',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
+    {'match_number': 73, 'fecha_partido': '2026-06-29 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo A', 'away_team': '2° del Grupo C o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 74, 'fecha_partido': '2026-06-30 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo B', 'away_team': '2° del Grupo D o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 75, 'fecha_partido': '2026-07-01 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo C', 'away_team': '2° del Grupo E o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 76, 'fecha_partido': '2026-06-28 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo D', 'away_team': '2° del Grupo F o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 77, 'fecha_partido': '2026-06-29 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo E', 'away_team': '2° del Grupo G o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 78, 'fecha_partido': '2026-06-30 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo F', 'away_team': '2° del Grupo H o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 79, 'fecha_partido': '2026-07-01 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo G', 'away_team': '2° del Grupo I o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 80, 'fecha_partido': '2026-06-28 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo H', 'away_team': '2° del Grupo J o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 81, 'fecha_partido': '2026-06-29 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo I', 'away_team': '2° del Grupo K o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 82, 'fecha_partido': '2026-06-30 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo J', 'away_team': '2° del Grupo L o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 83, 'fecha_partido': '2026-07-01 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo K', 'away_team': '2° del Grupo A o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 84, 'fecha_partido': '2026-06-28 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo L', 'away_team': '2° del Grupo B o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 85, 'fecha_partido': '2026-06-29 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo A', 'away_team': '2° del Grupo C o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 86, 'fecha_partido': '2026-06-30 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo B', 'away_team': '2° del Grupo D o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 87, 'fecha_partido': '2026-07-01 19:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo C', 'away_team': '2° del Grupo E o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 88, 'fecha_partido': '2026-06-28 15:00:00', 'stage': 'Dieciseisavos de Final', 'home_team': '1° del Grupo D', 'away_team': '2° del Grupo F o Mejor 3°', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
     # ==================== OCTAVOS DE FINAL ====================
-    {
-        'match_number': 89,
-        'fecha_partido': '2026-07-05 18:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 73',
-        'away_team': 'Ganador Partido 74',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 90,
-        'fecha_partido': '2026-07-06 14:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 74',
-        'away_team': 'Ganador Partido 75',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 91,
-        'fecha_partido': '2026-07-07 18:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 75',
-        'away_team': 'Ganador Partido 76',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 92,
-        'fecha_partido': '2026-07-04 14:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 76',
-        'away_team': 'Ganador Partido 77',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 93,
-        'fecha_partido': '2026-07-05 18:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 77',
-        'away_team': 'Ganador Partido 78',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 94,
-        'fecha_partido': '2026-07-06 14:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 78',
-        'away_team': 'Ganador Partido 79',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 95,
-        'fecha_partido': '2026-07-07 18:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 79',
-        'away_team': 'Ganador Partido 80',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 96,
-        'fecha_partido': '2026-07-04 14:00:00',
-        'stage': 'Octavos de Final',
-        'home_team': 'Ganador Partido 80',
-        'away_team': 'Ganador Partido 81',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
+    {'match_number': 89, 'fecha_partido': '2026-07-05 18:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 73', 'away_team': 'Ganador Partido 74', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 90, 'fecha_partido': '2026-07-06 14:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 74', 'away_team': 'Ganador Partido 75', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 91, 'fecha_partido': '2026-07-07 18:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 75', 'away_team': 'Ganador Partido 76', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 92, 'fecha_partido': '2026-07-04 14:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 76', 'away_team': 'Ganador Partido 77', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 93, 'fecha_partido': '2026-07-05 18:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 77', 'away_team': 'Ganador Partido 78', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 94, 'fecha_partido': '2026-07-06 14:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 78', 'away_team': 'Ganador Partido 79', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 95, 'fecha_partido': '2026-07-07 18:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 79', 'away_team': 'Ganador Partido 80', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 96, 'fecha_partido': '2026-07-04 14:00:00', 'stage': 'Octavos de Final', 'home_team': 'Ganador Partido 80', 'away_team': 'Ganador Partido 81', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
     # ==================== CUARTOS DE FINAL ====================
-    {
-        'match_number': 97,
-        'fecha_partido': '2026-07-10 19:00:00',
-        'stage': 'Cuartos de Final',
-        'home_team': 'Ganador Octavos P89',
-        'away_team': 'Ganador Octavos P90',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 98,
-        'fecha_partido': '2026-07-09 15:00:00',
-        'stage': 'Cuartos de Final',
-        'home_team': 'Ganador Octavos P90',
-        'away_team': 'Ganador Octavos P91',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 99,
-        'fecha_partido': '2026-07-10 19:00:00',
-        'stage': 'Cuartos de Final',
-        'home_team': 'Ganador Octavos P91',
-        'away_team': 'Ganador Octavos P92',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
-    {
-        'match_number': 100,
-        'fecha_partido': '2026-07-09 15:00:00',
-        'stage': 'Cuartos de Final',
-        'home_team': 'Ganador Octavos P92',
-        'away_team': 'Ganador Octavos P93',
-        'estadio': 'Por definir',
-        'ciudad': 'Sede por definir'
-    },
+    {'match_number': 97, 'fecha_partido': '2026-07-10 19:00:00', 'stage': 'Cuartos de Final', 'home_team': 'Ganador Octavos P89', 'away_team': 'Ganador Octavos P90', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 98, 'fecha_partido': '2026-07-09 15:00:00', 'stage': 'Cuartos de Final', 'home_team': 'Ganador Octavos P90', 'away_team': 'Ganador Octavos P91', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 99, 'fecha_partido': '2026-07-10 19:00:00', 'stage': 'Cuartos de Final', 'home_team': 'Ganador Octavos P91', 'away_team': 'Ganador Octavos P92', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
+    {'match_number': 100, 'fecha_partido': '2026-07-09 15:00:00', 'stage': 'Cuartos de Final', 'home_team': 'Ganador Octavos P92', 'away_team': 'Ganador Octavos P93', 'estadio': 'Por definir', 'ciudad': 'Sede por definir'},
     # ==================== SEMIFINALES ====================
-    {
-        'match_number': 101,
-        'fecha_partido': '2026-07-14 19:00:00',
-        'stage': 'Semifinal',
-        'home_team': 'Ganador Cuartos P97',
-        'away_team': 'Ganador Cuartos P98',
-        'estadio': 'Dallas Stadium',
-        'ciudad': 'Arlington'
-    },
-    {
-        'match_number': 102,
-        'fecha_partido': '2026-07-15 19:00:00',
-        'stage': 'Semifinal',
-        'home_team': 'Ganador Cuartos P99',
-        'away_team': 'Ganador Cuartos P100',
-        'estadio': 'Atlanta Stadium',
-        'ciudad': 'Atlanta'
-    },
+    {'match_number': 101, 'fecha_partido': '2026-07-14 19:00:00', 'stage': 'Semifinal', 'home_team': 'Ganador Cuartos P97', 'away_team': 'Ganador Cuartos P98', 'estadio': 'Dallas Stadium', 'ciudad': 'Arlington'},
+    {'match_number': 102, 'fecha_partido': '2026-07-15 19:00:00', 'stage': 'Semifinal', 'home_team': 'Ganador Cuartos P99', 'away_team': 'Ganador Cuartos P100', 'estadio': 'Atlanta Stadium', 'ciudad': 'Atlanta'},
     # ==================== TERCER PUESTO Y FINAL ====================
-    {
-        'match_number': 103,
-        'fecha_partido': '2026-07-18 15:00:00',
-        'stage': 'Tercer Puesto',
-        'home_team': 'Perdedor Semifinal 101',
-        'away_team': 'Perdedor Semifinal 102',
-        'estadio': 'Miami Stadium',
-        'ciudad': 'Miami Gardens'
-    },
-    {
-        'match_number': 104,
-        'fecha_partido': '2026-07-19 15:00:00',
-        'stage': 'Gran Final',
-        'home_team': 'Ganador Semifinal 101',
-        'away_team': 'Ganador Semifinal 102',
-        'estadio': 'New York New Jersey Stadium',
-        'ciudad': 'East Rutherford'
-    }
+    {'match_number': 103, 'fecha_partido': '2026-07-18 15:00:00', 'stage': 'Tercer Puesto', 'home_team': 'Perdedor Semifinal 101', 'away_team': 'Perdedor Semifinal 102', 'estadio': 'Miami Stadium', 'ciudad': 'Miami Gardens'},
+    {'match_number': 104, 'fecha_partido': '2026-07-19 15:00:00', 'stage': 'Gran Final', 'home_team': 'Ganador Semifinal 101', 'away_team': 'Ganador Semifinal 102', 'estadio': 'New York New Jersey Stadium', 'ciudad': 'East Rutherford'},
 ]
-
 
 conn = sqlite3.connect(DB, check_same_thread=False)
 cur = conn.cursor()
@@ -976,9 +143,17 @@ def parse_dt(txt):
             pass
     return None
 
-from datetime import timedelta
 
-def fmt_dt(txt):
+def fmt_match_dt(txt):
+    """Formatea fecha de partido (ya está en hora Colombia, no convertir)"""
+    dt = parse_dt(txt)
+    if dt:
+        return dt.strftime("%d/%m/%Y %H:%M")
+    return str(txt)
+
+
+def fmt_reg_dt(txt):
+    """Formatea fecha de registro (UTC -> hora Colombia, restar 5h)"""
     dt = parse_dt(txt)
     if dt:
         dt = dt - timedelta(hours=5)
@@ -1032,6 +207,14 @@ def init_db():
             UNIQUE(user_id, match_id)
         )
     """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS puntos_manuales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL UNIQUE,
+            puntos INTEGER DEFAULT 0
+        )
+    """)
     conn.commit()
 
     cur.execute("SELECT id FROM users WHERE correo=?", ("brallanhernandez460@gmail.com",))
@@ -1048,6 +231,26 @@ def init_db():
         conn.commit()
 
 
+def seed_users_if_needed():
+    for u in USUARIOS_INICIALES:
+        cur.execute("SELECT id FROM users WHERE correo=?", (u["correo"],))
+        row = cur.fetchone()
+        if not row:
+            cur.execute(
+                "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, 0, ?)",
+                (u["nombre"], u["correo"], hash_pw("Mundial2026"), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            )
+            conn.commit()
+            cur.execute("SELECT id FROM users WHERE correo=?", (u["correo"],))
+            row = cur.fetchone()
+
+        user_id = row[0]
+        cur.execute("SELECT id FROM puntos_manuales WHERE user_id=?", (user_id,))
+        if not cur.fetchone():
+            cur.execute("INSERT INTO puntos_manuales (user_id, puntos) VALUES (?, ?)", (user_id, u["puntos"]))
+            conn.commit()
+
+
 def seed_matches_if_empty():
     cur.execute("SELECT COUNT(*) FROM matches")
     total = cur.fetchone()[0]
@@ -1057,24 +260,12 @@ def seed_matches_if_empty():
             cur.execute(
                 """
                 INSERT INTO matches (
-                    match_number,
-                    fecha_partido,
-                    stage,
-                    home_team,
-                    away_team,
-                    estadio,
-                    ciudad
+                    match_number, fecha_partido, stage,
+                    home_team, away_team, estadio, ciudad
                 ) VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
-                (
-                    m["match_number"],
-                    m["fecha_partido"],
-                    m["stage"],
-                    m["home_team"],
-                    m["away_team"],
-                    m["estadio"],
-                    m["ciudad"]
-                )
+                (m["match_number"], m["fecha_partido"], m["stage"],
+                 m["home_team"], m["away_team"], m["estadio"], m["ciudad"])
             )
         conn.commit()
 
@@ -1087,22 +278,15 @@ def existe_usuario(correo):
 def crear_usuario(nombre, correo, password, admin=0):
     cur.execute(
         "INSERT INTO users (nombre, correo, password_hash, admin, created_at) VALUES (?, ?, ?, ?, ?)",
-        (
-            nombre,
-            correo.strip().lower(),
-            hash_pw(password),
-            admin,
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        )
+        (nombre, correo.strip().lower(), hash_pw(password), admin, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     )
     conn.commit()
-
-def recuperar_password(correo, nueva_password):
-    cur.execute(
-        "UPDATE users SET password_hash=? WHERE correo=?",
-        (hash_pw(nueva_password), correo.strip().lower())
-    )
-    conn.commit()
+    # Crear registro de puntos manuales en 0
+    cur.execute("SELECT id FROM users WHERE correo=?", (correo.strip().lower(),))
+    row = cur.fetchone()
+    if row:
+        cur.execute("INSERT OR IGNORE INTO puntos_manuales (user_id, puntos) VALUES (?, 0)", (row[0],))
+        conn.commit()
 
 
 def login(correo, password):
@@ -1115,11 +299,9 @@ def login(correo, password):
 
 def get_matches(search=""):
     df = pd.read_sql_query("SELECT * FROM matches ORDER BY match_number", conn)
-
     if len(df) > 0:
         df["_dt"] = pd.to_datetime(df["fecha_partido"], errors="coerce")
         df = df.sort_values(by=["_dt", "match_number"], na_position="last").drop(columns=["_dt"])
-
         if search:
             s = search.lower().strip()
             df = df[
@@ -1128,7 +310,6 @@ def get_matches(search=""):
                 | df["stage"].str.lower().str.contains(s, na=False)
                 | df["match_number"].astype(str).str.contains(s, na=False)
             ]
-
     return df
 
 
@@ -1140,45 +321,17 @@ def prediction_exists(user_id, match_id):
 def guardar_prediccion(user_id, match_id, home_pred, away_pred):
     if prediction_exists(user_id, match_id):
         raise ValueError("Ese partido ya lo registraste y quedó bloqueado y no se puede cambiar.")
-
     cur.execute(
-        """
-        INSERT INTO predictions (
-            user_id,
-            match_id,
-            home_pred,
-            away_pred,
-            puntos,
-            locked,
-            created_at
-        ) VALUES (?, ?, ?, ?, 0, 1, ?)
-        """,
-        (
-            user_id,
-            match_id,
-            int(home_pred),
-            int(away_pred),
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        )
+        "INSERT INTO predictions (user_id, match_id, home_pred, away_pred, puntos, locked, created_at) VALUES (?, ?, ?, ?, 0, 1, ?)",
+        (user_id, match_id, int(home_pred), int(away_pred), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     )
     conn.commit()
 
 
 def get_user_predictions(user_id):
     return pd.read_sql_query("""
-        SELECT
-            p.id,
-            m.match_number,
-            m.fecha_partido,
-            m.stage,
-            m.home_team,
-            m.away_team,
-            m.home_score,
-            m.away_score,
-            p.home_pred,
-            p.away_pred,
-            p.puntos,
-            p.created_at
+        SELECT p.id, m.match_number, m.fecha_partido, m.stage, m.home_team, m.away_team,
+               m.home_score, m.away_score, p.home_pred, p.away_pred, p.puntos, p.created_at
         FROM predictions p
         JOIN matches m ON m.id = p.match_id
         WHERE p.user_id = ?
@@ -1187,96 +340,51 @@ def get_user_predictions(user_id):
 
 
 def calcular_puntos(home_pred, away_pred, home_score, away_score):
-    home_pred = int(home_pred)
-    away_pred = int(away_pred)
-    home_score = int(home_score)
-    away_score = int(away_score)
-
-    # 3 puntos si acierta exacto
+    home_pred, away_pred = int(home_pred), int(away_pred)
+    home_score, away_score = int(home_score), int(away_score)
     if home_pred == home_score and away_pred == away_score:
         return 3
-
-    # Resultado del pronóstico
     if home_pred > away_pred:
-        resultado_pred = "L"   # local
+        rp = "L"
     elif home_pred < away_pred:
-        resultado_pred = "V"   # visitante
+        rp = "V"
     else:
-        resultado_pred = "E"   # empate
-
-    # Resultado oficial
+        rp = "E"
     if home_score > away_score:
-        resultado_real = "L"
+        rr = "L"
     elif home_score < away_score:
-        resultado_real = "V"
+        rr = "V"
     else:
-        resultado_real = "E"
-
-    # 1 punto si acierta ganador o empate
-    if resultado_pred == resultado_real:
+        rr = "E"
+    if rp == rr:
         return 1
-
-    # 0 si no acierta nada
     return 0
 
 
 def recalcular_puntos_partido(match_id):
-    preds = pd.read_sql_query("""
-        SELECT id, home_pred, away_pred
-        FROM predictions
-        WHERE match_id = ?
-    """, conn, params=(match_id,))
-
-    match_df = pd.read_sql_query("""
-        SELECT home_score, away_score
-        FROM matches
-        WHERE id = ?
-    """, conn, params=(match_id,))
-
+    preds = pd.read_sql_query("SELECT id, home_pred, away_pred FROM predictions WHERE match_id = ?", conn, params=(match_id,))
+    match_df = pd.read_sql_query("SELECT home_score, away_score FROM matches WHERE id = ?", conn, params=(match_id,))
     if len(match_df) == 0:
         return
-
-    home_score = match_df.iloc[0]["home_score"]
-    away_score = match_df.iloc[0]["away_score"]
-
-    if pd.isna(home_score) or pd.isna(away_score):
+    hs = match_df.iloc[0]["home_score"]
+    aws = match_df.iloc[0]["away_score"]
+    if pd.isna(hs) or pd.isna(aws):
         return
-
     for _, pr in preds.iterrows():
-        puntos = calcular_puntos(
-            pr["home_pred"],
-            pr["away_pred"],
-            home_score,
-            away_score
-        )
-        cur.execute(
-            "UPDATE predictions SET puntos=? WHERE id=?",
-            (int(puntos), int(pr["id"]))
-        )
-
+        pts = calcular_puntos(pr["home_pred"], pr["away_pred"], hs, aws)
+        cur.execute("UPDATE predictions SET puntos=? WHERE id=?", (int(pts), int(pr["id"])))
     conn.commit()
 
 
 def actualizar_resultado_oficial(match_id, home_score, away_score):
-    cur.execute(
-        "UPDATE matches SET home_score=?, away_score=? WHERE id=?",
-        (int(home_score), int(away_score), int(match_id))
-    )
+    cur.execute("UPDATE matches SET home_score=?, away_score=? WHERE id=?", (int(home_score), int(away_score), int(match_id)))
     conn.commit()
-
-    # Recalcular automáticamente los puntos del partido
     recalcular_puntos_partido(match_id)
 
 
 def get_predictions_by_match(match_id):
     return pd.read_sql_query("""
-        SELECT
-            p.id,
-            u.nombre,
-            p.home_pred,
-            p.away_pred,
-            p.puntos,
-            p.created_at
+        SELECT p.id, u.nombre, p.home_pred, p.away_pred, p.puntos, p.created_at
         FROM predictions p
         JOIN users u ON u.id = p.user_id
         WHERE p.match_id = ? AND u.admin = 0
@@ -1288,18 +396,20 @@ def get_ranking():
     return pd.read_sql_query("""
         SELECT
             u.nombre,
-            COALESCE(SUM(p.puntos), 0) AS puntos,
+            COALESCE(SUM(p.puntos), 0) + COALESCE(pm.puntos, 0) AS puntos,
             COALESCE(COUNT(p.id), 0) AS pronosticos
         FROM users u
         LEFT JOIN predictions p ON p.user_id = u.id
+        LEFT JOIN puntos_manuales pm ON pm.user_id = u.id
         WHERE u.admin = 0
-        GROUP BY u.id, u.nombre
+        GROUP BY u.id, u.nombre, pm.puntos
         ORDER BY puntos DESC, pronosticos DESC, u.nombre ASC
     """, conn)
 
 
 init_db()
 seed_matches_if_empty()
+seed_users_if_needed()
 
 if "user" not in st.session_state:
     st.session_state.user = None
@@ -1308,35 +418,26 @@ st.title("⚽ Polla - Mundialista 2026")
 st.caption("Polla para registrar tus pronósticos del Mundial 2026. ¡Que gane el mejor!")
 
 if st.session_state.user is None:
-    t1, t2 = st.tabs(["🔑 Iniciar sesión", "📝 Crear usuario"])
+    t1, t2 = st.tabs(["\U0001f511 Iniciar sesión", "\U0001f4dd Crear usuario"])
 
     with t1:
         correo = st.text_input("Correo", key="login_correo")
         pw = st.text_input("Contraseña", type="password", key="login_pw")
-
         if st.button("Entrar", use_container_width=True):
             u = login(correo, pw)
             if u:
-                st.session_state.user = {
-                    "id": u[0],
-                    "nombre": u[1],
-                    "correo": u[2],
-                    "admin": u[3]
-                }
+                st.session_state.user = {"id": u[0], "nombre": u[1], "correo": u[2], "admin": u[3]}
                 st.rerun()
             else:
                 st.error("Credenciales incorrectas")
-        
         st.markdown("---")
-        st.info("🔐 Si olvidaste tu contraseña, debes solicitarla al administrador.")
+        st.info("\U0001f510 Si olvidaste tu contraseña, debes solicitarla al administrador.")
 
-            
     with t2:
         nombre = st.text_input("Nombre completo", key="reg_nombre")
         correo = st.text_input("Correo", key="reg_correo")
         pw1 = st.text_input("Contraseña", type="password", key="reg_pw1")
         pw2 = st.text_input("Confirmar contraseña", type="password", key="reg_pw2")
-
         if st.button("Crear usuario", use_container_width=True):
             if not nombre or not correo or not pw1:
                 st.warning("Completa todos los campos.")
@@ -1350,46 +451,55 @@ if st.session_state.user is None:
 
 else:
     user = st.session_state.user
-
     h1, h2 = st.columns([6, 1])
-
     with h1:
-        st.success(f"👋 {user['nombre']}")
-
+        st.success(f"\U0001f44b {user['nombre']}")
     with h2:
         if st.button("Salir", use_container_width=True):
             st.session_state.user = None
             st.rerun()
 
-    # 🔐 PANEL SOLO ADMIN
+    # PANEL SOLO ADMIN
     if user["admin"]:
         st.markdown("---")
 
-        st.write("### 📦 Respaldo de base de datos")
+        st.write("### \U0001f4e6 Respaldo de base de datos")
         with open(DB, "rb") as f:
             st.download_button("⬇️ Descargar respaldo de la BD", f, file_name=DB, use_container_width=True)
         st.markdown("---")
 
-        st.write("### 🔧 Cambiar contraseña de usuario")
-
+        st.write("### \U0001f527 Cambiar contraseña de usuario")
         correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
         nueva_pw = st.text_input("Nueva contraseña", type="password", key="admin_pw_reset")
-
         if st.button("Actualizar contraseña", use_container_width=True):
             if not correo_user or not nueva_pw:
                 st.warning("Completa los campos")
             else:
-                cur.execute(
-                    "UPDATE users SET password_hash=? WHERE correo=?",
-                    (hash_pw(nueva_pw), correo_user.strip().lower())
-                )
+                cur.execute("UPDATE users SET password_hash=? WHERE correo=?", (hash_pw(nueva_pw), correo_user.strip().lower()))
                 conn.commit()
                 st.success("✅ Contraseña actualizada")
 
-    tabs = st.tabs(["🎯 Partidos", "🏆 Ranking"])
+        st.markdown("---")
+        st.write("### \U0001f4ca Ajustar puntos manuales")
+        all_users = pd.read_sql_query("SELECT u.id, u.nombre, COALESCE(pm.puntos, 0) as pts_manuales FROM users u LEFT JOIN puntos_manuales pm ON pm.user_id = u.id WHERE u.admin = 0 ORDER BY u.nombre", conn)
+        if len(all_users) > 0:
+            user_options = {f"{r['nombre']} (Pts manuales: {int(r['pts_manuales'])})": int(r['id']) for _, r in all_users.iterrows()}
+            sel_user = st.selectbox("Selecciona usuario", list(user_options.keys()), key="admin_sel_user_pts")
+            sel_user_id = user_options[sel_user]
+            cur.execute("SELECT COALESCE(puntos, 0) FROM puntos_manuales WHERE user_id=?", (sel_user_id,))
+            row_pts = cur.fetchone()
+            current_pts = row_pts[0] if row_pts else 0
+            new_pts = st.number_input("Puntos manuales", min_value=0, max_value=500, value=current_pts, step=1, key="admin_new_pts")
+            if st.button("💾 Guardar puntos manuales", use_container_width=True, key="btn_save_manual_pts"):
+                cur.execute("INSERT INTO puntos_manuales (user_id, puntos) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET puntos=?", (sel_user_id, new_pts, new_pts))
+                conn.commit()
+                st.success(f"✅ Puntos manuales actualizados a {new_pts}")
+                st.rerun()
+
+    tabs = st.tabs(["\U0001f3af Partidos", "\U0001f3c6 Ranking"])
 
     with tabs[0]:
-        search = st.text_input("🔎 Buscar partido por equipo o número", key="buscar_partido")
+        search = st.text_input("\U0001f50e Buscar partido por equipo o número", key="buscar_partido")
         df_matches = get_matches(search)
 
         if len(df_matches) == 0:
@@ -1397,44 +507,22 @@ else:
         else:
             df_matches = df_matches.copy()
             df_matches["label"] = df_matches.apply(
-                lambda r: f"#{int(r['match_number'])} | {fmt_dt(r['fecha_partido'])} | {r['home_team']} vs {r['away_team']}",
+                lambda r: f"#{int(r['match_number'])} | {fmt_match_dt(r['fecha_partido'])} | {r['home_team']} vs {r['away_team']}",
                 axis=1
             )
-
-            selected = st.selectbox(
-                "Selecciona un partido",
-                df_matches["label"].tolist(),
-                key="match_select"
-            )
-
+            selected = st.selectbox("Selecciona un partido", df_matches["label"].tolist(), key="match_select")
             row = df_matches[df_matches["label"] == selected].iloc[0]
 
             st.markdown(f"**{row['home_team']} vs {row['away_team']}**")
-            st.caption(f"{row['stage']} | {fmt_dt(row['fecha_partido'])} | {row['estadio']} - {row['ciudad']}")
+            st.caption(f"{row['stage']} | {fmt_match_dt(row['fecha_partido'])} | {row['estadio']} - {row['ciudad']}")
 
             if user["admin"]:
                 st.write("### Resultado oficial")
-
                 c1, c2 = st.columns(2)
-
-                hs = c1.number_input(
-                    f"Goles oficiales {row['home_team']}",
-                    min_value=0,
-                    max_value=30,
-                    value=int(row["home_score"]) if pd.notna(row["home_score"]) else 0,
-                    step=1,
-                    key="official_h"
-                )
-
-                aw = c2.number_input(
-                    f"Goles oficiales {row['away_team']}",
-                    min_value=0,
-                    max_value=30,
-                    value=int(row["away_score"]) if pd.notna(row["away_score"]) else 0,
-                    step=1,
-                    key="official_a"
-                )
-
+                hs = c1.number_input(f"Goles oficiales {row['home_team']}", min_value=0, max_value=30,
+                    value=int(row["home_score"]) if pd.notna(row["home_score"]) else 0, step=1, key="official_h")
+                aw = c2.number_input(f"Goles oficiales {row['away_team']}", min_value=0, max_value=30,
+                    value=int(row["away_score"]) if pd.notna(row["away_score"]) else 0, step=1, key="official_a")
                 if st.button("Guardar resultado oficial", key="save_official", use_container_width=True):
                     actualizar_resultado_oficial(int(row["id"]), hs, aw)
                     st.success("✅ Resultado oficial guardado y puntos calculados automáticamente.")
@@ -1442,26 +530,21 @@ else:
 
                 st.markdown("---")
                 st.write("### Pronósticos del partido")
-
                 preds = get_predictions_by_match(int(row["id"]))
                 if len(preds) == 0:
                     st.info("No hay pronósticos para este partido.")
                 else:
                     fecha_match = parse_dt(row["fecha_partido"])
                     tardios_ids = []
-
                     for _, pr in preds.iterrows():
                         fecha_reg = parse_dt(pr["created_at"])
-                        # created_at se guarda en UTC, restamos 5h para comparar con hora Colombia
                         if fecha_reg is not None:
                             fecha_reg_col = fecha_reg - timedelta(hours=5)
                         else:
                             fecha_reg_col = None
                         es_tardio = (fecha_reg_col is not None and fecha_match is not None and fecha_reg_col > fecha_match)
-
                         if es_tardio:
                             tardios_ids.append(int(pr["id"]))
-
                         with st.container(border=True):
                             col_info, col_pts = st.columns([5, 1])
                             with col_info:
@@ -1472,27 +555,19 @@ else:
                                 st.caption(
                                     f"Pronóstico: {int(pr['home_pred'])} - {int(pr['away_pred'])} | "
                                     f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0} | "
-                                    f"Registrado: {fmt_dt(pr['created_at'])}"
+                                    f"Registrado: {fmt_reg_dt(pr['created_at'])}"
                                 )
                             with col_pts:
-                                nuevo_pts = st.number_input(
-                                    "Pts",
-                                    min_value=0,
-                                    max_value=3,
-                                    value=int(pr["puntos"]) if pd.notna(pr["puntos"]) else 0,
-                                    key=f"edit_pts_{pr['id']}"
-                                )
-                                if st.button("💾", key=f"btn_pts_{pr['id']}"):
-                                    cur.execute(
-                                        "UPDATE predictions SET puntos=? WHERE id=?",
-                                        (nuevo_pts, int(pr["id"]))
-                                    )
+                                nuevo_pts = st.number_input("Pts", min_value=0, max_value=3,
+                                    value=int(pr["puntos"]) if pd.notna(pr["puntos"]) else 0, key=f"edit_pts_{pr['id']}")
+                                if st.button("\U0001f4be", key=f"btn_pts_{pr['id']}"):
+                                    cur.execute("UPDATE predictions SET puntos=? WHERE id=?", (nuevo_pts, int(pr["id"])))
                                     conn.commit()
                                     st.rerun()
 
                     if tardios_ids:
                         st.warning(f"⚠️ {len(tardios_ids)} pronóstico(s) registrado(s) después del inicio del partido.")
-                        if st.button("🚫 Poner en 0 TODOS los tardíos", use_container_width=True, key="btn_zero_tardios"):
+                        if st.button("\U0001f6ab Poner en 0 TODOS los tardíos", use_container_width=True, key="btn_zero_tardios"):
                             for pid in tardios_ids:
                                 cur.execute("UPDATE predictions SET puntos=0 WHERE id=?", (pid,))
                             conn.commit()
@@ -1501,31 +576,13 @@ else:
 
             else:
                 st.write("### Tu pronóstico")
-
                 existing = prediction_exists(user["id"], int(row["id"]))
                 if existing:
                     st.info("Ya registraste este partido. El pronóstico quedó bloqueado y no se puede cambiar.")
                 else:
                     c1, c2 = st.columns(2)
-
-                    hp = c1.number_input(
-                        f"Goles {row['home_team']}",
-                        min_value=0,
-                        max_value=30,
-                        value=0,
-                        step=1,
-                        key="pred_h"
-                    )
-
-                    ap = c2.number_input(
-                        f"Goles {row['away_team']}",
-                        min_value=0,
-                        max_value=30,
-                        value=0,
-                        step=1,
-                        key="pred_a"
-                    )
-
+                    hp = c1.number_input(f"Goles {row['home_team']}", min_value=0, max_value=30, value=0, step=1, key="pred_h")
+                    ap = c2.number_input(f"Goles {row['away_team']}", min_value=0, max_value=30, value=0, step=1, key="pred_a")
                     if st.button("Guardar mi pronóstico", use_container_width=True):
                         try:
                             guardar_prediccion(user["id"], int(row["id"]), hp, ap)
@@ -1536,43 +593,19 @@ else:
 
                 st.markdown("---")
                 st.write("### Mis pronósticos")
-
                 my_preds = get_user_predictions(user["id"])
                 if len(my_preds) > 0:
                     disp = my_preds.copy()
-                    disp["Fecha"] = disp["fecha_partido"].apply(fmt_dt)
-                    disp["Fecha registro"] = disp["created_at"].apply(fmt_dt)
-                    disp["Mi pronóstico"] = disp.apply(
-                        lambda r: f"{int(r['home_pred'])} - {int(r['away_pred'])}",
-                        axis=1
-                    )
-                    disp["Resultado oficial"] = disp.apply(
-                        lambda r: score_text(r["home_score"], r["away_score"]),
-                        axis=1
-                    )
-
+                    disp["Fecha"] = disp["fecha_partido"].apply(fmt_match_dt)
+                    disp["Fecha registro"] = disp["created_at"].apply(fmt_reg_dt)
+                    disp["Mi pronóstico"] = disp.apply(lambda r: f"{int(r['home_pred'])} - {int(r['away_pred'])}", axis=1)
+                    disp["Resultado oficial"] = disp.apply(lambda r: score_text(r["home_score"], r["away_score"]), axis=1)
                     st.dataframe(
-                        disp[
-                            [
-                                "match_number",
-                                "Fecha",
-                                "Fecha registro",
-                                "stage",
-                                "home_team",
-                                "away_team",
-                                "Mi pronóstico",
-                                "Resultado oficial",
-                                "puntos"
-                            ]
-                        ].rename(columns={
-                            "match_number": "#",
-                            "stage": "Fase",
-                            "home_team": "Local",
-                            "away_team": "Visitante",
-                            "puntos": "Puntos"
-                        }),
-                        use_container_width=True,
-                        hide_index=True
+                        disp[["match_number", "Fecha", "Fecha registro", "stage", "home_team", "away_team",
+                              "Mi pronóstico", "Resultado oficial", "puntos"]
+                        ].rename(columns={"match_number": "#", "stage": "Fase", "home_team": "Local",
+                                          "away_team": "Visitante", "puntos": "Puntos"}),
+                        use_container_width=True, hide_index=True
                     )
                 else:
                     st.info("Aún no has registrado pronósticos.")
@@ -1580,20 +613,15 @@ else:
     with tabs[1]:
         st.subheader("Ranking general")
         rank = get_ranking()
-
         if len(rank) > 0:
             rank = rank.reset_index(drop=True)
             rank.index = rank.index + 1
             rank["Posición"] = rank.index
-
             st.dataframe(
                 rank[["Posición", "nombre", "puntos", "pronosticos"]].rename(columns={
-                    "nombre": "Nombre",
-                    "puntos": "Puntos",
-                    "pronosticos": "Pronósticos"
+                    "nombre": "Nombre", "puntos": "Puntos", "pronosticos": "Pronósticos"
                 }),
-                use_container_width=True,
-                hide_index=True
+                use_container_width=True, hide_index=True
             )
         else:
             st.info("Aún no hay datos para el ranking.")
