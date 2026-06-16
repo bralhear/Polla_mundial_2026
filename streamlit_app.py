@@ -13,6 +13,7 @@ st.set_page_config(
 DB = "mundialista2026_simple.db"
 
 PARTIDOS_INICIALES = [
+    # ==================== JORNADA 1 ====================
     {
         'match_number': 1,
         'fecha_partido': '2026-06-11 14:00:00',
@@ -195,6 +196,33 @@ PARTIDOS_INICIALES = [
     },
     {
         'match_number': 21,
+        'fecha_partido': '2026-06-17 12:00:00',
+        'stage': 'Grupo K',
+        'home_team': 'Portugal',
+        'away_team': 'RD Congo',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 22,
+        'fecha_partido': '2026-06-17 15:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Inglaterra',
+        'away_team': 'Croacia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 23,
+        'fecha_partido': '2026-06-17 18:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Ghana',
+        'away_team': 'Panamá',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 24,
         'fecha_partido': '2026-06-17 21:00:00',
         'stage': 'Grupo K',
         'home_team': 'Uzbekistán',
@@ -202,8 +230,216 @@ PARTIDOS_INICIALES = [
         'estadio': 'Estadio Azteca',
         'ciudad': 'Ciudad de México'
     },
+    # ==================== JORNADA 2 ====================
     {
-        'match_number': 22,
+        'match_number': 25,
+        'fecha_partido': '2026-06-18 11:00:00',
+        'stage': 'Grupo A',
+        'home_team': 'República Checa',
+        'away_team': 'Sudáfrica',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 26,
+        'fecha_partido': '2026-06-18 14:00:00',
+        'stage': 'Grupo B',
+        'home_team': 'Suiza',
+        'away_team': 'Bosnia y Herzegovina',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 27,
+        'fecha_partido': '2026-06-18 17:00:00',
+        'stage': 'Grupo B',
+        'home_team': 'Canadá',
+        'away_team': 'Catar',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 28,
+        'fecha_partido': '2026-06-18 20:00:00',
+        'stage': 'Grupo A',
+        'home_team': 'México',
+        'away_team': 'Corea del Sur',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 29,
+        'fecha_partido': '2026-06-19 14:00:00',
+        'stage': 'Grupo D',
+        'home_team': 'Estados Unidos',
+        'away_team': 'Australia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 30,
+        'fecha_partido': '2026-06-19 17:00:00',
+        'stage': 'Grupo C',
+        'home_team': 'Escocia',
+        'away_team': 'Marruecos',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 31,
+        'fecha_partido': '2026-06-19 20:00:00',
+        'stage': 'Grupo C',
+        'home_team': 'Brasil',
+        'away_team': 'Haití',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 32,
+        'fecha_partido': '2026-06-19 23:00:00',
+        'stage': 'Grupo D',
+        'home_team': 'Turquía',
+        'away_team': 'Paraguay',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 33,
+        'fecha_partido': '2026-06-20 14:00:00',
+        'stage': 'Grupo F',
+        'home_team': 'Países Bajos',
+        'away_team': 'Suecia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 34,
+        'fecha_partido': '2026-06-20 15:00:00',
+        'stage': 'Grupo E',
+        'home_team': 'Alemania',
+        'away_team': 'Costa de Marfil',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 35,
+        'fecha_partido': '2026-06-20 19:00:00',
+        'stage': 'Grupo E',
+        'home_team': 'Ecuador',
+        'away_team': 'Curaçao',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 36,
+        'fecha_partido': '2026-06-20 23:00:00',
+        'stage': 'Grupo F',
+        'home_team': 'Túnez',
+        'away_team': 'Japón',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 37,
+        'fecha_partido': '2026-06-21 11:00:00',
+        'stage': 'Grupo H',
+        'home_team': 'España',
+        'away_team': 'Arabia Saudita',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 38,
+        'fecha_partido': '2026-06-21 14:00:00',
+        'stage': 'Grupo G',
+        'home_team': 'Bélgica',
+        'away_team': 'Irán',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 39,
+        'fecha_partido': '2026-06-21 17:00:00',
+        'stage': 'Grupo H',
+        'home_team': 'Uruguay',
+        'away_team': 'Cabo Verde',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 40,
+        'fecha_partido': '2026-06-21 20:00:00',
+        'stage': 'Grupo G',
+        'home_team': 'Nueva Zelanda',
+        'away_team': 'Egipto',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 41,
+        'fecha_partido': '2026-06-22 12:00:00',
+        'stage': 'Grupo J',
+        'home_team': 'Argentina',
+        'away_team': 'Austria',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 42,
+        'fecha_partido': '2026-06-22 16:00:00',
+        'stage': 'Grupo I',
+        'home_team': 'Francia',
+        'away_team': 'Irak',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 43,
+        'fecha_partido': '2026-06-22 19:00:00',
+        'stage': 'Grupo I',
+        'home_team': 'Noruega',
+        'away_team': 'Senegal',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 44,
+        'fecha_partido': '2026-06-22 22:00:00',
+        'stage': 'Grupo J',
+        'home_team': 'Jordania',
+        'away_team': 'Argelia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 45,
+        'fecha_partido': '2026-06-23 12:00:00',
+        'stage': 'Grupo K',
+        'home_team': 'Portugal',
+        'away_team': 'Uzbekistán',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 46,
+        'fecha_partido': '2026-06-23 15:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Inglaterra',
+        'away_team': 'Ghana',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 47,
+        'fecha_partido': '2026-06-23 18:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Panamá',
+        'away_team': 'Croacia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 48,
         'fecha_partido': '2026-06-23 21:00:00',
         'stage': 'Grupo K',
         'home_team': 'Colombia',
@@ -211,8 +447,189 @@ PARTIDOS_INICIALES = [
         'estadio': 'Estadio Guadalajara',
         'ciudad': 'Guadalajara'
     },
+    # ==================== JORNADA 3 ====================
     {
-        'match_number': 23,
+        'match_number': 49,
+        'fecha_partido': '2026-06-24 14:00:00',
+        'stage': 'Grupo B',
+        'home_team': 'Suiza',
+        'away_team': 'Canadá',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 50,
+        'fecha_partido': '2026-06-24 14:00:00',
+        'stage': 'Grupo B',
+        'home_team': 'Bosnia y Herzegovina',
+        'away_team': 'Catar',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 51,
+        'fecha_partido': '2026-06-24 17:00:00',
+        'stage': 'Grupo C',
+        'home_team': 'Escocia',
+        'away_team': 'Brasil',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 52,
+        'fecha_partido': '2026-06-24 17:00:00',
+        'stage': 'Grupo C',
+        'home_team': 'Marruecos',
+        'away_team': 'Haití',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 53,
+        'fecha_partido': '2026-06-24 20:00:00',
+        'stage': 'Grupo A',
+        'home_team': 'República Checa',
+        'away_team': 'México',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 54,
+        'fecha_partido': '2026-06-24 20:00:00',
+        'stage': 'Grupo A',
+        'home_team': 'Sudáfrica',
+        'away_team': 'Corea del Sur',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 55,
+        'fecha_partido': '2026-06-25 15:00:00',
+        'stage': 'Grupo E',
+        'home_team': 'Curaçao',
+        'away_team': 'Costa de Marfil',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 56,
+        'fecha_partido': '2026-06-25 15:00:00',
+        'stage': 'Grupo E',
+        'home_team': 'Ecuador',
+        'away_team': 'Alemania',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 57,
+        'fecha_partido': '2026-06-25 18:00:00',
+        'stage': 'Grupo F',
+        'home_team': 'Japón',
+        'away_team': 'Suecia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 58,
+        'fecha_partido': '2026-06-25 18:00:00',
+        'stage': 'Grupo F',
+        'home_team': 'Túnez',
+        'away_team': 'Países Bajos',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 59,
+        'fecha_partido': '2026-06-25 21:00:00',
+        'stage': 'Grupo D',
+        'home_team': 'Turquía',
+        'away_team': 'Estados Unidos',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 60,
+        'fecha_partido': '2026-06-25 21:00:00',
+        'stage': 'Grupo D',
+        'home_team': 'Paraguay',
+        'away_team': 'Australia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 61,
+        'fecha_partido': '2026-06-26 14:00:00',
+        'stage': 'Grupo I',
+        'home_team': 'Noruega',
+        'away_team': 'Francia',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 62,
+        'fecha_partido': '2026-06-26 14:00:00',
+        'stage': 'Grupo I',
+        'home_team': 'Senegal',
+        'away_team': 'Irak',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 63,
+        'fecha_partido': '2026-06-26 19:00:00',
+        'stage': 'Grupo H',
+        'home_team': 'Cabo Verde',
+        'away_team': 'Arabia Saudita',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 64,
+        'fecha_partido': '2026-06-26 19:00:00',
+        'stage': 'Grupo H',
+        'home_team': 'Uruguay',
+        'away_team': 'España',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 65,
+        'fecha_partido': '2026-06-26 22:00:00',
+        'stage': 'Grupo G',
+        'home_team': 'Egipto',
+        'away_team': 'Irán',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 66,
+        'fecha_partido': '2026-06-26 22:00:00',
+        'stage': 'Grupo G',
+        'home_team': 'Nueva Zelanda',
+        'away_team': 'Bélgica',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 67,
+        'fecha_partido': '2026-06-27 16:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Panamá',
+        'away_team': 'Inglaterra',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 68,
+        'fecha_partido': '2026-06-27 16:00:00',
+        'stage': 'Grupo L',
+        'home_team': 'Croacia',
+        'away_team': 'Ghana',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
+    },
+    {
+        'match_number': 69,
         'fecha_partido': '2026-06-27 18:30:00',
         'stage': 'Grupo K',
         'home_team': 'Colombia',
@@ -221,446 +638,33 @@ PARTIDOS_INICIALES = [
         'ciudad': 'Miami Gardens'
     },
     {
-        'match_number': 24,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Uruguay',
-        'away_team': 'España',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 25,
-        'fecha_partido': '2026-06-20 18:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Bélgica',
-        'away_team': 'Irán',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 26,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Francia',
-        'away_team': 'Noruega',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 27,
-        'fecha_partido': '2026-06-22 18:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Argentina',
-        'away_team': 'Austria',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 28,
-        'fecha_partido': '2026-06-23 14:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Marruecos',
-        'away_team': 'Escocia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 29,
-        'fecha_partido': '2026-06-24 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Suiza',
-        'away_team': 'Canadá',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 30,
-        'fecha_partido': '2026-06-15 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Paraguay',
-        'away_team': 'Australia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 31,
-        'fecha_partido': '2026-06-16 18:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Japón',
-        'away_team': 'Suecia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 32,
-        'fecha_partido': '2026-06-17 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Alemania',
-        'away_team': 'Ecuador',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 33,
-        'fecha_partido': '2026-06-18 18:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Costa de Marfil',
-        'away_team': 'Curaçao',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 34,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Países Bajos',
-        'away_team': 'Túnez',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 35,
-        'fecha_partido': '2026-06-20 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Marruecos',
-        'away_team': 'Brasil',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 36,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Egipto',
-        'away_team': 'Nueva Zelanda',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 37,
-        'fecha_partido': '2026-06-22 18:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Senegal',
-        'away_team': 'Irak',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 38,
-        'fecha_partido': '2026-06-23 14:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Argelia',
-        'away_team': 'Jordania',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 39,
-        'fecha_partido': '2026-06-24 18:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Portugal',
-        'away_team': 'RD Congo',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 40,
-        'fecha_partido': '2026-06-15 14:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Chile',
-        'away_team': 'Ghana',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 41,
-        'fecha_partido': '2026-06-16 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Ucrania',
-        'away_team': 'Camerún',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 42,
-        'fecha_partido': '2026-06-17 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Gales',
-        'away_team': 'Perú',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 43,
-        'fecha_partido': '2026-06-18 18:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Polonia',
-        'away_team': 'Nigeria',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 44,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'México',
-        'away_team': 'Corea del Sur',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 45,
-        'fecha_partido': '2026-06-20 18:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Sudáfrica',
-        'away_team': 'República Checa',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 46,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Canadá',
-        'away_team': 'Catar',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 47,
-        'fecha_partido': '2026-06-22 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Bosnia y Herzegovina',
-        'away_team': 'Suiza',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 48,
-        'fecha_partido': '2026-06-23 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Estados Unidos',
-        'away_team': 'Australia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 49,
-        'fecha_partido': '2026-06-24 18:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Paraguay',
-        'away_team': 'Turquía',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 50,
-        'fecha_partido': '2026-06-15 14:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Brasil',
-        'away_team': 'Haití',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 51,
-        'fecha_partido': '2026-06-16 18:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Marruecos',
-        'away_team': 'Escocia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 52,
-        'fecha_partido': '2026-06-17 14:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Alemania',
-        'away_team': 'Costa de Marfil',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 53,
-        'fecha_partido': '2026-06-18 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'Curaçao',
-        'away_team': 'Ecuador',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 54,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Países Bajos',
-        'away_team': 'Suecia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 55,
-        'fecha_partido': '2026-06-20 18:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Japón',
-        'away_team': 'Túnez',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 56,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'España',
-        'away_team': 'Arabia Saudita',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 57,
-        'fecha_partido': '2026-06-22 18:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Cabo Verde',
-        'away_team': 'Uruguay',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 58,
-        'fecha_partido': '2026-06-23 14:00:00',
-        'stage': 'Grupo K',
-        'home_team': 'Bélgica',
-        'away_team': 'Irán',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 59,
-        'fecha_partido': '2026-06-24 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Egipto',
-        'away_team': 'Nueva Zelanda',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 60,
-        'fecha_partido': '2026-06-15 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'Francia',
-        'away_team': 'Irak',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 61,
-        'fecha_partido': '2026-06-16 18:00:00',
-        'stage': 'Grupo B',
-        'home_team': 'Senegal',
-        'away_team': 'Noruega',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 62,
-        'fecha_partido': '2026-06-17 14:00:00',
-        'stage': 'Grupo C',
-        'home_team': 'Argentina',
-        'away_team': 'Austria',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 63,
-        'fecha_partido': '2026-06-18 18:00:00',
-        'stage': 'Grupo D',
-        'home_team': 'Argelia',
-        'away_team': 'Jordania',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 64,
-        'fecha_partido': '2026-06-19 14:00:00',
-        'stage': 'Grupo E',
-        'home_team': 'Portugal',
-        'away_team': 'Uzbekistán',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 65,
-        'fecha_partido': '2026-06-20 18:00:00',
-        'stage': 'Grupo F',
-        'home_team': 'RD Congo',
-        'away_team': 'Polonia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 66,
-        'fecha_partido': '2026-06-21 14:00:00',
-        'stage': 'Grupo G',
-        'home_team': 'Inglaterra',
-        'away_team': 'Croacia',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 67,
-        'fecha_partido': '2026-06-22 18:00:00',
-        'stage': 'Grupo H',
-        'home_team': 'Ghana',
-        'away_team': 'Panamá',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 68,
-        'fecha_partido': '2026-06-23 14:00:00',
-        'stage': 'Grupo I',
-        'home_team': 'Italia',
-        'away_team': 'Dinamarca',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
-        'match_number': 69,
-        'fecha_partido': '2026-06-24 18:00:00',
-        'stage': 'Grupo J',
-        'home_team': 'Serbia',
-        'away_team': 'Jamaica',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
-    },
-    {
         'match_number': 70,
-        'fecha_partido': '2026-06-15 14:00:00',
+        'fecha_partido': '2026-06-27 18:30:00',
         'stage': 'Grupo K',
-        'home_team': 'Irlanda',
-        'away_team': 'Mali',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
+        'home_team': 'RD Congo',
+        'away_team': 'Uzbekistán',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
     },
     {
         'match_number': 71,
-        'fecha_partido': '2026-06-16 18:00:00',
-        'stage': 'Grupo L',
-        'home_team': 'Islandia',
-        'away_team': 'Honduras',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
+        'fecha_partido': '2026-06-27 21:00:00',
+        'stage': 'Grupo J',
+        'home_team': 'Argelia',
+        'away_team': 'Austria',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
     },
     {
         'match_number': 72,
-        'fecha_partido': '2026-06-17 14:00:00',
-        'stage': 'Grupo A',
-        'home_team': 'México',
-        'away_team': 'República Checa',
-        'estadio': 'Estadio Mundialista',
-        'ciudad': 'Sede Oficial'
+        'fecha_partido': '2026-06-27 21:00:00',
+        'stage': 'Grupo J',
+        'home_team': 'Jordania',
+        'away_team': 'Argentina',
+        'estadio': 'Por definir',
+        'ciudad': 'Sede por definir'
     },
+    # ==================== DIECISEISAVOS DE FINAL ====================
     {
         'match_number': 73,
         'fecha_partido': '2026-06-29 19:00:00',
@@ -681,7 +685,7 @@ PARTIDOS_INICIALES = [
     },
     {
         'match_number': 75,
-        'fecha_partido': '2026-06-31 19:00:00',
+        'fecha_partido': '2026-07-01 19:00:00',
         'stage': 'Dieciseisavos de Final',
         'home_team': '1° del Grupo C',
         'away_team': '2° del Grupo E o Mejor 3°',
@@ -717,7 +721,7 @@ PARTIDOS_INICIALES = [
     },
     {
         'match_number': 79,
-        'fecha_partido': '2026-06-31 19:00:00',
+        'fecha_partido': '2026-07-01 19:00:00',
         'stage': 'Dieciseisavos de Final',
         'home_team': '1° del Grupo G',
         'away_team': '2° del Grupo I o Mejor 3°',
@@ -753,7 +757,7 @@ PARTIDOS_INICIALES = [
     },
     {
         'match_number': 83,
-        'fecha_partido': '2026-06-31 19:00:00',
+        'fecha_partido': '2026-07-01 19:00:00',
         'stage': 'Dieciseisavos de Final',
         'home_team': '1° del Grupo K',
         'away_team': '2° del Grupo A o Mejor 3°',
@@ -789,7 +793,7 @@ PARTIDOS_INICIALES = [
     },
     {
         'match_number': 87,
-        'fecha_partido': '2026-06-31 19:00:00',
+        'fecha_partido': '2026-07-01 19:00:00',
         'stage': 'Dieciseisavos de Final',
         'home_team': '1° del Grupo C',
         'away_team': '2° del Grupo E o Mejor 3°',
@@ -805,6 +809,7 @@ PARTIDOS_INICIALES = [
         'estadio': 'Por definir',
         'ciudad': 'Sede por definir'
     },
+    # ==================== OCTAVOS DE FINAL ====================
     {
         'match_number': 89,
         'fecha_partido': '2026-07-05 18:00:00',
@@ -877,6 +882,7 @@ PARTIDOS_INICIALES = [
         'estadio': 'Por definir',
         'ciudad': 'Sede por definir'
     },
+    # ==================== CUARTOS DE FINAL ====================
     {
         'match_number': 97,
         'fecha_partido': '2026-07-10 19:00:00',
@@ -913,6 +919,7 @@ PARTIDOS_INICIALES = [
         'estadio': 'Por definir',
         'ciudad': 'Sede por definir'
     },
+    # ==================== SEMIFINALES ====================
     {
         'match_number': 101,
         'fecha_partido': '2026-07-14 19:00:00',
@@ -931,6 +938,7 @@ PARTIDOS_INICIALES = [
         'estadio': 'Atlanta Stadium',
         'ciudad': 'Atlanta'
     },
+    # ==================== TERCER PUESTO Y FINAL ====================
     {
         'match_number': 103,
         'fecha_partido': '2026-07-18 15:00:00',
@@ -950,6 +958,7 @@ PARTIDOS_INICIALES = [
         'ciudad': 'East Rutherford'
     }
 ]
+
 
 conn = sqlite3.connect(DB, check_same_thread=False)
 cur = conn.cursor()
@@ -1355,6 +1364,12 @@ else:
     # 🔐 PANEL SOLO ADMIN
     if user["admin"]:
         st.markdown("---")
+
+        st.write("### 📦 Respaldo de base de datos")
+        with open(DB, "rb") as f:
+            st.download_button("⬇️ Descargar respaldo de la BD", f, file_name=DB, use_container_width=True)
+        st.markdown("---")
+
         st.write("### 🔧 Cambiar contraseña de usuario")
 
         correo_user = st.text_input("Correo del usuario", key="admin_correo_reset")
@@ -1432,14 +1447,57 @@ else:
                 if len(preds) == 0:
                     st.info("No hay pronósticos para este partido.")
                 else:
+                    fecha_match = parse_dt(row["fecha_partido"])
+                    tardios_ids = []
+
                     for _, pr in preds.iterrows():
+                        fecha_reg = parse_dt(pr["created_at"])
+                        # created_at se guarda en UTC, restamos 5h para comparar con hora Colombia
+                        if fecha_reg is not None:
+                            fecha_reg_col = fecha_reg - timedelta(hours=5)
+                        else:
+                            fecha_reg_col = None
+                        es_tardio = (fecha_reg_col is not None and fecha_match is not None and fecha_reg_col > fecha_match)
+
+                        if es_tardio:
+                            tardios_ids.append(int(pr["id"]))
+
                         with st.container(border=True):
-                            st.write(f"**{pr['nombre']}**")
-                            st.caption(
-                                f"Pronóstico: {int(pr['home_pred'])} - {int(pr['away_pred'])} | "
-                                f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0} | "
-                                f"Registrado: {fmt_dt(pr['created_at'])}"
-                            )
+                            col_info, col_pts = st.columns([5, 1])
+                            with col_info:
+                                if es_tardio:
+                                    st.write(f"⚠️ **{pr['nombre']}** — _REGISTRO TARDÍO_")
+                                else:
+                                    st.write(f"**{pr['nombre']}**")
+                                st.caption(
+                                    f"Pronóstico: {int(pr['home_pred'])} - {int(pr['away_pred'])} | "
+                                    f"Puntos: {int(pr['puntos']) if pd.notna(pr['puntos']) else 0} | "
+                                    f"Registrado: {fmt_dt(pr['created_at'])}"
+                                )
+                            with col_pts:
+                                nuevo_pts = st.number_input(
+                                    "Pts",
+                                    min_value=0,
+                                    max_value=3,
+                                    value=int(pr["puntos"]) if pd.notna(pr["puntos"]) else 0,
+                                    key=f"edit_pts_{pr['id']}"
+                                )
+                                if st.button("💾", key=f"btn_pts_{pr['id']}"):
+                                    cur.execute(
+                                        "UPDATE predictions SET puntos=? WHERE id=?",
+                                        (nuevo_pts, int(pr["id"]))
+                                    )
+                                    conn.commit()
+                                    st.rerun()
+
+                    if tardios_ids:
+                        st.warning(f"⚠️ {len(tardios_ids)} pronóstico(s) registrado(s) después del inicio del partido.")
+                        if st.button("🚫 Poner en 0 TODOS los tardíos", use_container_width=True, key="btn_zero_tardios"):
+                            for pid in tardios_ids:
+                                cur.execute("UPDATE predictions SET puntos=0 WHERE id=?", (pid,))
+                            conn.commit()
+                            st.success(f"✅ {len(tardios_ids)} pronósticos actualizados a 0 puntos.")
+                            st.rerun()
 
             else:
                 st.write("### Tu pronóstico")
