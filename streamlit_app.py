@@ -341,23 +341,65 @@ def calcular_puntos(home_pred, away_pred, home_score, away_score):
 
 
 def recalcular_puntos_partido(match_id):
-    preds = pd.read_sql_query("SELECT id, home_pred, away_pred FROM predictions WHERE match_id = ?", conn, params=(match_id,))
-    match_df = pd.read_sql_query("SELECT home_score, away_score FROM matches WHERE id = ?", conn, params=(match_id,))
+    preds = pd.read_sql_query("""
+        SELECT id, user_id, home_pred, away_pred, puntos
+        FROM predictions
+        WHERE match_id = ?
+    """, conn, params=(match_id,))
+
+    match_df = pd.read_sql_query("""
+        SELECT home_score, away_score
+        FROM matches
+        WHERE id = ?
+    """, conn, params=(match_id,))
+
     if len(match_df) == 0:
         return
+
     hs = match_df.iloc[0]["home_score"]
     aws = match_df.iloc[0]["away_score"]
+
     if pd.isna(hs) or pd.isna(aws):
         return
+
     for _, pr in preds.iterrows():
-        pts = calcular_puntos(pr["home_pred"], pr["away_pred"], hs, aws)
-        cur.execute("UPDATE predictions SET puntos=? WHERE id=?", (int(pts), int(pr["id"])))
+        puntos_anteriores = int(pr["puntos"]) if pd.notna(pr["puntos"]) else 0
+
+        puntos_nuevos = calcular_puntos(
+            pr["home_pred"],
+            pr["away_pred"],
+            hs,
+            aws
+        )
+
+        diferencia = int(puntos_nuevos) - int(puntos_anteriores)
+
+        # Actualiza los puntos del pronóstico
+        cur.execute(
+            "UPDATE predictions SET puntos=? WHERE id=?",
+            (int(puntos_nuevos), int(pr["id"]))
+        )
+
+        # Suma SOLO la diferencia a puntos_manuales
+        # Esto evita inflar puntos si guardas el mismo marcador varias veces
+        if diferencia != 0:
+            cur.execute("""
+                INSERT INTO puntos_manuales (user_id, puntos)
+                VALUES (?, ?)
+                ON CONFLICT(user_id)
+                DO UPDATE SET puntos = puntos + ?
+            """, (int(pr["user_id"]), int(diferencia), int(diferencia)))
+
     conn.commit()
 
 
 def actualizar_resultado_oficial(match_id, home_score, away_score):
-    cur.execute("UPDATE matches SET home_score=?, away_score=? WHERE id=?", (int(home_score), int(away_score), int(match_id)))
+    cur.execute(
+        "UPDATE matches SET home_score=?, away_score=? WHERE id=?",
+        (int(home_score), int(away_score), int(match_id))
+    )
     conn.commit()
+
     recalcular_puntos_partido(match_id)
 
 
@@ -372,18 +414,21 @@ def get_predictions_by_match(match_id):
 
 
 
+
+
 def get_ranking():
     return pd.read_sql_query("""
         SELECT
             u.nombre,
-            COALESCE(SUM(p.puntos), 0) AS puntos,
-            COUNT(p.id) AS pronosticos
+            COALESCE(pm.puntos, 0) AS puntos,
+            (SELECT COUNT(*) FROM predictions WHERE user_id = u.id) AS pronosticos
         FROM users u
-        LEFT JOIN predictions p ON p.user_id = u.id
+        LEFT JOIN puntos_manuales pm ON pm.user_id = u.id
         WHERE u.admin = 0
-        GROUP BY u.id, u.nombre
         ORDER BY puntos DESC, pronosticos DESC, u.nombre ASC
     """, conn)
+
+
 
 
 
