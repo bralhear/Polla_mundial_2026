@@ -375,11 +375,24 @@ def get_ranking():
     return pd.read_sql_query("""
         SELECT
             u.nombre,
-            COALESCE(pm.puntos, 0) AS puntos,
-            (SELECT COUNT(*) FROM predictions WHERE user_id = u.id) AS pronosticos
+
+            -- ✅ puntos reales (predicciones)
+            COALESCE(SUM(p.puntos), 0)
+
+            -- ✅ + puntos manuales
+            + COALESCE(pm.puntos, 0) AS puntos,
+
+            COUNT(p.id) AS pronosticos
+
         FROM users u
+
+        LEFT JOIN predictions p ON p.user_id = u.id
         LEFT JOIN puntos_manuales pm ON pm.user_id = u.id
-        WHERE u.admin = 0 AND COALESCE(pm.puntos, 0) > 0
+
+        WHERE u.admin = 0
+
+        GROUP BY u.id, u.nombre, pm.puntos
+
         ORDER BY puntos DESC, pronosticos DESC, u.nombre ASC
     """, conn)
 
