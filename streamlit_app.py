@@ -403,6 +403,35 @@ def actualizar_resultado_oficial(match_id, home_score, away_score):
     recalcular_puntos_partido(match_id)
 
 
+def actualizar_partido_manual(match_id, fecha_partido, stage, home_team, away_team, estadio, ciudad):
+    """
+    Permite al administrador programar manualmente los partidos desde el 73 en adelante.
+    Solo actualiza datos del partido. No borra pronósticos, no toca resultados ni ranking.
+    """
+    cur.execute(
+        """
+        UPDATE matches
+        SET fecha_partido=?,
+            stage=?,
+            home_team=?,
+            away_team=?,
+            estadio=?,
+            ciudad=?
+        WHERE id=?
+        """,
+        (
+            fecha_partido,
+            stage.strip(),
+            home_team.strip(),
+            away_team.strip(),
+            estadio.strip(),
+            ciudad.strip(),
+            int(match_id)
+        )
+    )
+    conn.commit()
+
+
 def get_predictions_by_match(match_id):
     return pd.read_sql_query("""
         SELECT p.id, u.nombre, p.home_pred, p.away_pred, p.puntos, p.created_at
@@ -411,9 +440,6 @@ def get_predictions_by_match(match_id):
         WHERE p.match_id = ? AND u.admin = 0
         ORDER BY u.nombre
     """, conn, params=(match_id,))
-
-
-
 
 
 def get_ranking():
@@ -427,10 +453,6 @@ def get_ranking():
         WHERE u.admin = 0
         ORDER BY puntos DESC, pronosticos DESC, u.nombre ASC
     """, conn)
-
-
-
-
 
 
 init_db()
@@ -520,6 +542,119 @@ else:
                 conn.commit()
                 st.success(f"✅ Puntos manuales actualizados a {new_pts}")
                 st.rerun()
+
+        st.markdown("---")
+        st.write("### 🛠️ Programar partidos desde el partido 73")
+
+        partidos_editables = pd.read_sql_query("""
+            SELECT *
+            FROM matches
+            WHERE match_number >= 73
+            ORDER BY match_number
+        """, conn)
+
+        if len(partidos_editables) == 0:
+            st.info("No hay partidos editables desde el partido 73.")
+        else:
+            partidos_editables = partidos_editables.copy()
+            partidos_editables["label"] = partidos_editables.apply(
+                lambda r: (
+                    f"#{int(r['match_number'])} | {r['stage']} | "
+                    f"{r['home_team']} vs {r['away_team']} | "
+                    f"{fmt_match_dt(r['fecha_partido'])}"
+                ),
+                axis=1
+            )
+
+            partido_admin_sel = st.selectbox(
+                "Selecciona el partido a programar",
+                partidos_editables["label"].tolist(),
+                key="admin_partido_manual_sel"
+            )
+
+            partido_edit = partidos_editables[
+                partidos_editables["label"] == partido_admin_sel
+            ].iloc[0]
+
+            fecha_actual = parse_dt(partido_edit["fecha_partido"])
+            if fecha_actual is None:
+                fecha_actual = datetime.now()
+
+            st.caption(
+                f"Editando partido #{int(partido_edit['match_number'])}. "
+                "Esta opción solo actualiza la programación del partido. "
+                "No afecta pronósticos, resultados ni ranking."
+            )
+
+            c1, c2 = st.columns(2)
+
+            with c1:
+                nuevo_home = st.text_input(
+                    "Equipo local",
+                    value=str(partido_edit["home_team"]),
+                    key=f"admin_home_{partido_edit['id']}"
+                )
+                nueva_fecha = st.date_input(
+                    "Fecha del partido",
+                    value=fecha_actual.date(),
+                    key=f"admin_fecha_{partido_edit['id']}"
+                )
+                nuevo_estadio = st.text_input(
+                    "Estadio",
+                    value=str(partido_edit["estadio"]) if pd.notna(partido_edit["estadio"]) else "",
+                    key=f"admin_estadio_{partido_edit['id']}"
+                )
+
+            with c2:
+                nuevo_away = st.text_input(
+                    "Equipo visitante",
+                    value=str(partido_edit["away_team"]),
+                    key=f"admin_away_{partido_edit['id']}"
+                )
+                nueva_hora = st.time_input(
+                    "Hora del partido",
+                    value=fecha_actual.time(),
+                    key=f"admin_hora_{partido_edit['id']}"
+                )
+                nueva_ciudad = st.text_input(
+                    "Ciudad",
+                    value=str(partido_edit["ciudad"]) if pd.notna(partido_edit["ciudad"]) else "",
+                    key=f"admin_ciudad_{partido_edit['id']}"
+                )
+
+            nueva_stage = st.text_input(
+                "Fase",
+                value=str(partido_edit["stage"]) if pd.notna(partido_edit["stage"]) else "",
+                key=f"admin_stage_{partido_edit['id']}"
+            )
+
+            nueva_fecha_partido = datetime.combine(
+                nueva_fecha, nueva_hora
+            ).strftime("%Y-%m-%d %H:%M:%S")
+
+            if st.button(
+                "💾 Guardar programación del partido",
+                use_container_width=True,
+                key=f"btn_guardar_partido_manual_{partido_edit['id']}"
+            ):
+                if not nuevo_home.strip():
+                    st.warning("Debes diligenciar el equipo local.")
+                elif not nuevo_away.strip():
+                    st.warning("Debes diligenciar el equipo visitante.")
+                elif not nueva_stage.strip():
+                    st.warning("Debes diligenciar la fase del partido.")
+                else:
+                    actualizar_partido_manual(
+                        int(partido_edit["id"]),
+                        nueva_fecha_partido,
+                        nueva_stage,
+                        nuevo_home,
+                        nuevo_away,
+                        nuevo_estadio,
+                        nueva_ciudad
+                    )
+                    st.success("✅ Partido actualizado correctamente.")
+                    st.rerun()
 
     tabs = st.tabs(["🎯 Partidos", "🏆 Ranking"])
 
